@@ -1,0 +1,3 @@
+gcc -O1 -S exemplo4.c -Wall
+gcc -O1 -o exemplo4 exemplo4.c -Wall
+./exemplo4
