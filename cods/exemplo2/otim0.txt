@@ -1,8 +1,0 @@
-Resultado e f0: 1666667.0 
-Tempo (fatorial sem recursao): 17.0(ms) Clocks: 4.53e+07 
-Clock/tempo: 2.67e+06
-
-Resultado de f1: 1666667.0 
-Tempo (fatorial com recursao): 377.9(ms) Clocks: 1.01e+09 
-Clock/tempo: 2.66e+06
-

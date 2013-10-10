@@ -1,2 +1,0 @@
-gcc -O0 -o exemplo2 exemplo2.c -Wall
-./exemplo2

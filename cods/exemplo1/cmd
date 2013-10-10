@@ -1,3 +1,0 @@
-gcc -O0 -g -pg -o exemplo1 exemplo1.c
-./exemplo1
-gprof exemplo1 gmon.out > analise.txt
