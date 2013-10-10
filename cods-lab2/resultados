@@ -1,0 +1,35 @@
+64x64
+Tempo: 0.7(ms) Clocks: 2.34e+06 
+Clock/tempo: 3.52e+06
+
+Tempo: 0.7(ms) Clocks: 2.01e+06 
+Clock/tempo: 3.02e+06
+
+128x128
+Tempo: 11.7(ms) Clocks: 3.13e+07 
+Clock/tempo: 2.68e+06
+
+Tempo: 8.3(ms) Clocks: 2.28e+07 
+Clock/tempo: 2.74e+06
+
+256x256
+Tempo: 132.3(ms) Clocks: 3.52e+08 
+Clock/tempo: 2.66e+06
+
+Tempo: 85.7(ms) Clocks: 2.28e+08 
+Clock/tempo: 2.66e+06
+
+512x512
+Tempo: 1759.7(ms) Clocks: 4.68e+09 
+Clock/tempo: 2.66e+06
+
+Tempo: 1310.7(ms) Clocks: 3.49e+09 
+Clock/tempo: 2.66e+06
+
+1024x1024
+Tempo: 29835.7(ms) Clocks: 7.94e+10 
+Clock/tempo: 2.66e+06
+
+Tempo: 11048.3(ms) Clocks: 2.94e+10 
+Clock/tempo: 2.66e+06
+

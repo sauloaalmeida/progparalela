@@ -1,0 +1,3 @@
+gcc -O1 -std=c99 -S exemplo3restrict.c -Wall
+gcc -O1 -std=c99 -o exemplo3restrict exemplo3restrict.c -Wall
+./exemplo3restrict
