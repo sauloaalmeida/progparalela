@@ -4,7 +4,7 @@ versao 0
 Operacoes CPU  2*n
 
            3
-Memoria 3*n
+Memoria 4*n
 
 -----------------------------------------------
 versao 1
@@ -12,4 +12,4 @@ versao 1
 Operacoes CPU 2*n
 
            3
-Memoria 3*n
+Memoria 4*n
