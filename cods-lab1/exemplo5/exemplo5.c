@@ -7,6 +7,7 @@ Descrição: programa exemplo para avaliacao de desempenho em funcao do tamanho 
 #include <stdio.h>
 #include <sys/time.h>
 #define NITER 100000000
+#define SIZE 32
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)
 typedef union {
@@ -55,10 +56,9 @@ int main(void) {
    long long unsigned int clock;
    double tempo;
    int j,s;
-   float array_entrada[16] = {26.67,32.54,98.56,56.09,34.09,58.98,21.87,49.98,45.98,67.98,56.90,34.48,41.98,94.87,31.90,83.76};
-   float array_retorno[16] = {};
-   float array_entradab[16] =  {26.67,32.54,98.56,56.09,34.09,58.98,21.87,49.98,45.98,67.98,56.90,34.48,41.98,94.87,31.90,83.76};
-   float array_retornob[16] = {};
+   float array_entrada[SIZE], array_entradab[SIZE]= {26.67,32.54,98.56,56.09,34.09,58.98,21.87,49.98,45.98,67.98,56.90,34.48,41.98,94.87,31.90,83.76,26.67,32.54,98.56,56.09,34.09,58.98,21.87,49.98,45.98,67.98,56.90,34.48,41.98,94.87,31.90,83.76};
+   float array_retorno[SIZE] = {};
+   float array_retornob[SIZE] = {};
    float *array_entradap, *array_retornop;
 
    array_entradap = &array_entrada;
@@ -68,7 +68,7 @@ int main(void) {
    gettimeofday(&inicio, NULL); 
    RDTSC(tsc1);
    for (j=0; j<NITER; j++) {
-      somap1(array_entradap,array_retornop,16);
+      somap1(array_entradap,array_retornop,SIZE);
    }
    RDTSC(tsc2);
    gettimeofday(&fim, NULL);
@@ -84,7 +84,7 @@ int main(void) {
    gettimeofday(&inicio, NULL); 
    RDTSC(tsc1);
    for (j=0; j<NITER; j++) {
-      somap2(array_entradap,array_retornop,16);
+      somap2(array_entradap,array_retornop,SIZE);
    }
    RDTSC(tsc2);
    gettimeofday(&fim, NULL);
