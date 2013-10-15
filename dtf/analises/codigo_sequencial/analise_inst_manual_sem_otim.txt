@@ -1,0 +1,52 @@
+4
+Tempo DFT: 0.0(ms) Clocks: 1.51e+03 
+Clock/tempo: inf
+
+8
+Tempo DFT: 0.0(ms) Clocks: 2.12e+03 
+Clock/tempo: inf
+
+16
+Tempo DFT: 0.0(ms) Clocks: 2.20e+03 
+Clock/tempo: inf
+
+32
+Tempo DFT: 0.0(ms) Clocks: 2.40e+01 
+Clock/tempo: inf
+
+64
+Tempo DFT: 0.0(ms) Clocks: 8.00e+00 
+Clock/tempo: inf
+
+128
+Tempo DFT: 0.0(ms) Clocks: 3.78e+03 
+Clock/tempo: inf
+
+256
+Tempo DFT: 0.0(ms) Clocks: 8.00e+00 
+Clock/tempo: inf
+
+512
+Tempo DFT: 0.4(ms) Clocks: 7.84e+04 
+Clock/tempo: 2.09e+05
+
+1024
+Tempo DFT: 0.1(ms) Clocks: 1.02e+04 
+Clock/tempo: 8.19e+04
+
+2048
+Tempo DFT: 0.0(ms) Clocks: 8.00e+00 
+Clock/tempo: inf
+
+4096
+Tempo DFT: 0.4(ms) Clocks: 7.93e+04 
+Clock/tempo: 2.11e+05
+
+8192
+Tempo DFT: 1.5(ms) Clocks: 2.95e+05 
+Clock/tempo: 1.97e+05
+
+16384
+Tempo DFT: 3.1(ms) Clocks: 5.83e+05 
+Clock/tempo: 1.87e+05
+
