@@ -1,7 +1,8 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/time.h>
-#define NITER 1000
+#define NITER 8
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)
@@ -100,36 +101,78 @@ void four1(float *data, int *nn, int *isign){
      }
 }
 
-int main(void){
+
+
+int carregaVetor(float *vet, FILE *fp, int tamanhoVetor) {
+   int i;
+   //printf("tamanho do vetor: %d", tamanhoVetor);
+   for (i=0; i<tamanhoVetor; i++){
+         if(fscanf(fp, "%f", &vet[i])==0){ 
+               return 0;
+         }
+         //printf("vetor[%d]=%f\n", i,vet[i]);
+    }     
+   return 1;
+}
+
+int main(int argc, char *argv[]){
 
      struct timeval inicio, fim;
      tsc_counter tsc1, tsc2;
      long long unsigned int clock;
      double tempo;
      int j=1;
-     int positiv=1;
+     int positivoValue=1;
      int *positivo;
-     int potenc=16;
-     int *potencia;
-     double res;
+     int tamVetValue=0;
+     int *tamVet;
+     float *array_f;
+     FILE *fA;
      
-     positivo=&positiv;
-     potencia=&potenc; 
-     
-     float array_f[16] = {1.45,2.98,3.58,4.70,5.60,6.57,7.19,8.40,9.69,10.25,11.78,12.46,13.90,14.48,15.35,16.48};
+     tamVet = &tamVetValue;
+     positivo = &positivoValue; 
 
+     if(argc < 2) {
+        printf("ERRO: lista de argumentos incorreta: \n<prog> <arq-vetor> \n");
+        return -1;
+     } 
+
+     fA = fopen(argv[1], "r");
+     if(fA==NULL) {printf("ERRO: leitura do arquivo com o vetor\n"); return -1;}
+
+     if(fscanf(fA, "%d", tamVet)==0) {
+        printf("erro ao ler o tamanho do vetor");
+        return -1; //numero de colunas do vetor
+     }
+   
+     array_f = malloc(sizeof(float) * (*tamVet));
+     if(array_f==NULL) {printf("ERRO: alocação do vetor\n"); return -1;}
+   
+     //carrega os valores iniciais das matrizes
+     if(!carregaVetor(array_f, fA, *tamVet)) return -1;
+ 
+     //fecha o arquivos de entrada
+     fclose(fA);
+     //printf("Arquivo Fechado\n");
+     
+     //warmUp;
+     four1(array_f,tamVet,positivo);
+   
      //mede o tempo de execução da funcao f0 (media de NITER repeticoes) 
      gettimeofday(&inicio, NULL); 
      RDTSC(tsc1);
      for (j=0; j<NITER; j++) {
-          four1(array_f,potencia,positivo);
+          four1(array_f,tamVet,positivo);
      }
+     
+     //free(array_f);
 
      RDTSC(tsc2);
      gettimeofday(&fim, NULL);
      tempo = (fim.tv_sec - inicio.tv_sec)*1000 + (fim.tv_usec - inicio.tv_usec)/1000; //calcula tempo em milisegundos
+     //printf("tempo:%lf",tempo);
      clock = tsc2.int64 - tsc1.int64; //calcula numero de ciclos de CPU gastos
-     printf("Tempo (fatorial sem recursao): %.1lf(ms) Clocks: %.2e \n", tempo/NITER, (double)clock/NITER);
+     printf("Tempo DFT: %.1lf(ms) Clocks: %.2e \n", tempo/NITER, (double)clock/NITER);
      printf("Clock/tempo: %.2e\n\n", clock/tempo);
 
 
