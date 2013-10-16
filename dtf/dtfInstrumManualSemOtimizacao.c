@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#define NITER 8
+#define NITER 100000
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)
@@ -122,7 +122,7 @@ int main(int argc, char *argv[]){
      long long unsigned int clock;
      double tempo;
      int j=1;
-     int positivoValue=1;
+     int positivoValue=-1;
      int *positivo;
      int tamVetValue=0;
      int *tamVet;
@@ -157,6 +157,9 @@ int main(int argc, char *argv[]){
      
      //warmUp;
      four1(array_f,tamVet,positivo);
+     
+     for(j=0;j<8;j++)
+       printf("%f ",array_f[j]);
    
      //mede o tempo de execução da funcao f0 (media de NITER repeticoes) 
      gettimeofday(&inicio, NULL); 

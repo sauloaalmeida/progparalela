@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define NITER 1000000
+#define NITER 100000
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 
 
@@ -134,6 +134,11 @@ int main(int argc, char *argv[]){
      //fecha o arquivos de entrada
      fclose(fA);
      //printf("Arquivo Fechado\n");
+
+     four1(array_f,tamVet,positivo);
+     
+     for(j=0;j<8;j++)
+       printf("%f ",array_f[j]);
     
      //executa NITER vezes
      for (j=0; j<NITER; j++) {

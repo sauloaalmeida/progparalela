@@ -26,7 +26,7 @@ int geraVetorNumerosAleatorios (int n) {
    
    srand(time(NULL)); /* inicializa gerador aleatorio */
    //imprime a primeira linha da matriz
-   printf("%d\n", potencia2(n)); 
+   printf("%d\n", potencia2(n)/2); 
    //gera e imprime o conteúdo da matriz
    for(i=0; i<potencia2(n); i++) {
         /* rand() gera inteiro entre 0 e a constante RAND_MAX */

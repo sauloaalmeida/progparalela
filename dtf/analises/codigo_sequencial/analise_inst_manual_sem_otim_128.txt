@@ -1,0 +1,8 @@
+Tempo DFT: 0.0(ms) Clocks: 1.70e+02 
+Clock/tempo: inf
+
+ERRO: leitura do arquivo com o vetor
+ERRO: leitura do arquivo com o vetor
+Tempo DFT: 2.2(ms) Clocks: 1.10e+06 
+Clock/tempo: 4.96e+05
+
