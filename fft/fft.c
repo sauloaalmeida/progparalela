@@ -292,31 +292,31 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 		j += m;
 	}
 
-	mmax=2;
+	mmax=2; //divide em 2 blocos (pares e impares)
 	while (tamArray > mmax) {
 
-		istep=mmax * 2;
-		theta=isign*(6.28318530717959/mmax);
+		istep=mmax * 2; //tamanho do bloco
+		theta=isign * (6.28318530717959/mmax); // theta = signal * (pi/2) 1 iteracao = pi 3,141543
 
-		wtemp=sin(0.5*theta);
-		wpr = -2.0*wtemp*wtemp;
-		wpi=sin(theta);
-		wr=1.0;
-		wi=0.0;
+		wtemp=sin(0.5*theta); //wtemp = seno(3,141543/2)
+		wpr = -2.0*wtemp*wtemp; //wpr = -2.wtemp^2
+		wpi=sin(theta); //wpi = sen(3,141543)
+		wr=1.0; //wr = 1
+		wi=0.0; //wi = 0
 		for (m=1;m<mmax;m+=2) {
 			for (i=m;i<=tamArray;i+=istep) {
 				j=i+mmax;
-				tempr=wr*data[j]-wi*data[j+1];
-				tempi=wr*data[j+1]+wi*data[j];
-				data[j]=data[i]-tempr;
-				data[j+1]=data[i+1]-tempi;
-				data[i] += tempr;
-				data[i+1] += tempi;
+				tempr = wr*data[j]-wi*data[j+1];
+				tempi = wr*data[j+1]+wi*data[j];
+				data[j] = data[i]-tempr;
+				data[j+1] = data[i+1]-tempi;
+				data[i] = data[i] +tempr;
+				data[i+1] = data[i+1] + tempi;
 			}
-			wr=(wtemp=wr)*wpr-wi*wpi+wr;
-			wi=wi*wpr+wtemp*wpi+wi;
+			wr = wtemp=(wr*wpr)-(wi*wpi)+wr;
+			wi = (wi*wpr)+(wtemp*wpi)+wi;
 		}
-		mmax=istep;
+		mmax=istep;//caminha o proximo passo no laco mais externo
 	}
 }
 
@@ -325,7 +325,7 @@ int main(void) {
 
 		float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.} ;
 
-		fft(data-1,4,1);
+		fftLegivel(data-1,4,1);
 		imprimeVetor(data,8);
 
 		return 0;
