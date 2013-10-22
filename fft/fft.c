@@ -278,19 +278,32 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 	float tempr,tempi;
 
 	tamArray=qtdElementos * 2;
+        printf("tamArray=%lu\n",tamArray);
+        printf("Array de entrada: ");
+        imprimeVetor(data,tamArray);
 	j=1;
+
+	printf("inicio rotina de bit reverso\n");
+        printf("--------------------------\n");
 	for (i=1;i<tamArray;i+=2) {
+                printf("loop bit reverso: j=%lu, i=%lu\n",j,i);
 		if (j > i) {
+                        printf("loop bitreverso: entrou no IF: troca i=%lu(real:%f;imag:%f), com j=%lu(real:%f;imag:%f)\n",i,data[i],data[i+1],j,data[j],data[j+1]);
 			SWAP(data[j],data[i]);
 			SWAP(data[j+1],data[i+1]);
 		}
 		m=qtdElementos;
+                printf("\nm=%lu\n",m);
 		while (m >= 2 && j > m) {
-			j -= m;
-			m /= 2;
+			printf("bitreverso loop while: m\n ");
+			
+			j = j-m;
+			m = m/2;
 		}
-		j += m;
+		j = j+m;
 	}
+        printf("--------------------------\n");
+        printf("fim rotina de bit reverso\n\n");
 
 	mmax=2; //divide em 2 blocos (pares e impares)
 	while (tamArray > mmax) {
@@ -313,7 +326,7 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 				data[i] = data[i] +tempr;
 				data[i+1] = data[i+1] + tempi;
 			}
-			wr = wtemp=(wr*wpr)-(wi*wpi)+wr;
+			wr = (wtemp=wr)*wpr-(wi*wpi)+wr;
 			wi = (wi*wpr)+(wtemp*wpi)+wi;
 		}
 		mmax=istep;//caminha o proximo passo no laco mais externo
@@ -323,10 +336,13 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 
 int main(void) {
 
-		float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.} ;
+		float data[16] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
+		fftLegivel(data-1,8,1);
+		imprimeVetor(data,16);
 
-		fftLegivel(data-1,4,1);
-		imprimeVetor(data,8);
+		//float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.};
+		//fftLegivel(data-1,4,1); 
+		//imprimeVetor(data,8);
 
 		return 0;
 
