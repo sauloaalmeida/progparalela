@@ -332,13 +332,22 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 		printf("      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=%lu, mmax=%lu\n",m,mmax);
 			for (i=m;i<=tamArray;i+=istep) {
                         printf("         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=%lu, m=%lu, istep=%lu\n",i,m,istep);
+				printf("         j=i+mmax; -> j=%lu, i=%lu, mmax=%lu "j,i,mmax);
 				j=i+mmax;
+			        printf("         j depois de atualizado -> j=%lu\n"j);
+				
 				tempr = wr*data[j]-wi*data[j+1];
+				
 				tempi = wr*data[j+1]+wi*data[j];
+				
 				data[j] = data[i]-tempr;
+				
 				data[j+1] = data[i+1]-tempi;
+				
 				data[i] = data[i] +tempr;
+				
 				data[i+1] = data[i+1] + tempi;
+
                         printf("         >> final do for interno 2\n");
 			}
 			printf("      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=%f,wpi=%f,wi=%f,wpr=%f,wtemp=%f => ",wr,wpi,wi,wpr,wtemp);
