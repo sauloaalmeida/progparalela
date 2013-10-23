@@ -332,21 +332,38 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 		printf("      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=%lu, mmax=%lu\n",m,mmax);
 			for (i=m;i<=tamArray;i+=istep) {
                         printf("         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=%lu, m=%lu, istep=%lu\n",i,m,istep);
-				printf("         j=i+mmax; -> j=%lu, i=%lu, mmax=%lu "j,i,mmax);
+				printf("         j=i+mmax; -> j=%lu, i=%lu, mmax=%lu ",j,i,mmax);
 				j=i+mmax;
-			        printf("         j depois de atualizado -> j=%lu\n"j);
+			        printf("         j depois de atualizado -> j=%lu\n",j);
 				
+				printf("         tempr = wr*data[j]-wi*data[j+1]; -> j=%lu, data[j+1]=%f, wi=%f, wr=%f, data[j]=%f ",j,data[j+1], wi, wr, data[j]);
 				tempr = wr*data[j]-wi*data[j+1];
-				
+				printf("         tempr=%f\n",tempr);
+
+					
+                                printf("         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=%f, wi=%f, data[j+1]=%f, wr=%f ",data[j], wi, data[j+1],wr);
 				tempi = wr*data[j+1]+wi*data[j];
+				printf("         tempi=%f\n",tempi);
+
 				
+				printf("         data[j] = data[i]-tempr; -> tempr=%f data[i]=%f, i=%lu, j=%lu ",tempr,data[i],i,j);
 				data[j] = data[i]-tempr;
-				
+   			        printf("         data[j]=%f j=%lu\n",data[j],j);
+
+
+				printf("         data[j+1] = data[i+1]-tempi; -> tempi=%f, data[i+1]=%f, i=%lu, j=%lu ",tempi,data[i+1],i,j);
 				data[j+1] = data[i+1]-tempi;
+				printf("         data[j+1]=%f j=%lu\n",data[j+1],j);
 				
-				data[i] = data[i] +tempr;
+
+				printf("         data[i] = data[i] +tempr; -> tempr=%f, data[i]=%f, i=%lu ",tempr,data[i],i);
+				data[i] = data[i]+tempr;
+				printf("         data[i]=%f i=%lu\n",data[i],i);
+
 				
+				printf("         data[i+1] = data[i+1] + tempi; -> tempi=%f, data[i+1]=%f, i=%lu ",tempi,data[i+1],i);
 				data[i+1] = data[i+1] + tempi;
+				printf("         data[i+1]=%f i=%lu\n",data[i+1],i);
 
                         printf("         >> final do for interno 2\n");
 			}
@@ -357,9 +374,9 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
                         printf("      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=%f,wpi=%f,wtemp=%f,wpr=%f => ",wi,wpi,wtemp,wpr);
 			wi = (wi*wpr)+(wtemp*wpi)+wi;
                         printf("      wi=%f\n",wi);
-                        
-		}
-                printf("      << final do for interno 1\n");
+
+                printf("      << final do for interno 1\n\n");                        
+		}                
                 printf("   mmax=istep;");
 		mmax=istep;//caminha o proximo passo no laco mais externo
                 printf("  mmax=%lu\n",mmax);
