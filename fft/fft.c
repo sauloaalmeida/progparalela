@@ -392,13 +392,17 @@ void fftLegivel(float data[], unsigned long qtdElementos, int isign){
 
 int main(void) {
 
+		float data[32] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
+                fftLegivel(data-1,16,1);
+                imprimeVetor(data,32);
+
 		//float data[16] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
 		//fftLegivel(data-1,8,1);
 		//imprimeVetor(data,16);
 
-		float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.};
-		fftLegivel(data-1,4,1); 
-		imprimeVetor(data,8);
+		//float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.};
+		//fftLegivel(data-1,4,1); 
+		//imprimeVetor(data,8);
 
 		return 0;
 
