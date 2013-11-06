@@ -1,0 +1,514 @@
+tamArray=32
+Array de entrada: 0.000000 0.000000 0.000000 1.000000 0.000000 2.000000 0.000000 3.000000 0.000000 0.000000 0.000000 1.000000 0.000000 2.000000 0.000000 3.000000 0.000000 0.000000 0.000000 1.000000 0.000000 2.000000 0.000000 3.000000 0.000000 0.000000 0.000000 1.000000 0.000000 2.000000 0.000000 3.000000 
+
+j=1
+>> inicio rotina de bit reverso
+   >> loop bit reverso: j=1, i=1
+
+   m=16
+   bitreverso depois do  while: m=16 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=17 
+   >> loop bit reverso: j=17, i=3
+   loop bitreverso: entrou no IF: troca i=3(real:1.000000;imag:0.000000), com j=17(real:0.000000;imag:0.000000)
+
+   m=16
+      bitreverso loop while: m=16 j=17 
+         bitreverso loop while apos atualizacao: m=8 j=1 
+   bitreverso depois do  while: m=8 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=9 
+   >> loop bit reverso: j=9, i=5
+   loop bitreverso: entrou no IF: troca i=5(real:2.000000;imag:0.000000), com j=9(real:0.000000;imag:0.000000)
+
+   m=16
+   bitreverso depois do  while: m=16 j=9 
+   bitreverso depois do while, com j atualizado: j = j+m; j=25 
+   >> loop bit reverso: j=25, i=7
+   loop bitreverso: entrou no IF: troca i=7(real:3.000000;imag:0.000000), com j=25(real:0.000000;imag:0.000000)
+
+   m=16
+      bitreverso loop while: m=16 j=25 
+         bitreverso loop while apos atualizacao: m=8 j=9 
+      bitreverso loop while: m=8 j=9 
+         bitreverso loop while apos atualizacao: m=4 j=1 
+   bitreverso depois do  while: m=4 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=5 
+   >> loop bit reverso: j=5, i=9
+
+   m=16
+   bitreverso depois do  while: m=16 j=5 
+   bitreverso depois do while, com j atualizado: j = j+m; j=21 
+   >> loop bit reverso: j=21, i=11
+   loop bitreverso: entrou no IF: troca i=11(real:1.000000;imag:0.000000), com j=21(real:2.000000;imag:0.000000)
+
+   m=16
+      bitreverso loop while: m=16 j=21 
+         bitreverso loop while apos atualizacao: m=8 j=5 
+   bitreverso depois do  while: m=8 j=5 
+   bitreverso depois do while, com j atualizado: j = j+m; j=13 
+   >> loop bit reverso: j=13, i=13
+
+   m=16
+   bitreverso depois do  while: m=16 j=13 
+   bitreverso depois do while, com j atualizado: j = j+m; j=29 
+   >> loop bit reverso: j=29, i=15
+   loop bitreverso: entrou no IF: troca i=15(real:3.000000;imag:0.000000), com j=29(real:2.000000;imag:0.000000)
+
+   m=16
+      bitreverso loop while: m=16 j=29 
+         bitreverso loop while apos atualizacao: m=8 j=13 
+      bitreverso loop while: m=8 j=13 
+         bitreverso loop while apos atualizacao: m=4 j=5 
+      bitreverso loop while: m=4 j=5 
+         bitreverso loop while apos atualizacao: m=2 j=1 
+   bitreverso depois do  while: m=2 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=3 
+   >> loop bit reverso: j=3, i=17
+
+   m=16
+   bitreverso depois do  while: m=16 j=3 
+   bitreverso depois do while, com j atualizado: j = j+m; j=19 
+   >> loop bit reverso: j=19, i=19
+
+   m=16
+      bitreverso loop while: m=16 j=19 
+         bitreverso loop while apos atualizacao: m=8 j=3 
+   bitreverso depois do  while: m=8 j=3 
+   bitreverso depois do while, com j atualizado: j = j+m; j=11 
+   >> loop bit reverso: j=11, i=21
+
+   m=16
+   bitreverso depois do  while: m=16 j=11 
+   bitreverso depois do while, com j atualizado: j = j+m; j=27 
+   >> loop bit reverso: j=27, i=23
+   loop bitreverso: entrou no IF: troca i=23(real:3.000000;imag:0.000000), com j=27(real:1.000000;imag:0.000000)
+
+   m=16
+      bitreverso loop while: m=16 j=27 
+         bitreverso loop while apos atualizacao: m=8 j=11 
+      bitreverso loop while: m=8 j=11 
+         bitreverso loop while apos atualizacao: m=4 j=3 
+   bitreverso depois do  while: m=4 j=3 
+   bitreverso depois do while, com j atualizado: j = j+m; j=7 
+   >> loop bit reverso: j=7, i=25
+
+   m=16
+   bitreverso depois do  while: m=16 j=7 
+   bitreverso depois do while, com j atualizado: j = j+m; j=23 
+   >> loop bit reverso: j=23, i=27
+
+   m=16
+      bitreverso loop while: m=16 j=23 
+         bitreverso loop while apos atualizacao: m=8 j=7 
+   bitreverso depois do  while: m=8 j=7 
+   bitreverso depois do while, com j atualizado: j = j+m; j=15 
+   >> loop bit reverso: j=15, i=29
+
+   m=16
+   bitreverso depois do  while: m=16 j=15 
+   bitreverso depois do while, com j atualizado: j = j+m; j=31 
+   >> loop bit reverso: j=31, i=31
+
+   m=16
+      bitreverso loop while: m=16 j=31 
+         bitreverso loop while apos atualizacao: m=8 j=15 
+      bitreverso loop while: m=8 j=15 
+         bitreverso loop while apos atualizacao: m=4 j=7 
+      bitreverso loop while: m=4 j=7 
+         bitreverso loop while apos atualizacao: m=2 j=3 
+      bitreverso loop while: m=2 j=3 
+         bitreverso loop while apos atualizacao: m=1 j=1 
+   bitreverso depois do  while: m=1 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=2 
+<< fim rotina de bit reverso
+
+>> inicio rotina de calculo do fourier
+   >> inicio do loop externo do calculo do fourier
+   mmax=2
+   istep=mmax * 2;   istep=4
+   theta=isign * (6.28318530717959/mmax);   theta=3.141593
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=1, mmax=2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=1, m=1, istep=4
+         j=i+mmax; -> j=2, i=1, mmax=2          j depois de atualizado -> j=3
+         tempr = wr*data[j]-wi*data[j+1]; -> j=3, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=1, j=3          data[j]=0.000000 j=3
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1, j=3          data[j+1]=0.000000 j=3
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=1          data[i]=0.000000 i=1
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1          data[i+1]=0.000000 i=1
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=5, m=1, istep=4
+         j=i+mmax; -> j=3, i=5, mmax=2          j depois de atualizado -> j=7
+         tempr = wr*data[j]-wi*data[j+1]; -> j=7, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=5, j=7          data[j]=0.000000 j=7
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5, j=7          data[j+1]=0.000000 j=7
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=5          data[i]=0.000000 i=5
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5          data[i+1]=0.000000 i=5
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=9, m=1, istep=4
+         j=i+mmax; -> j=7, i=9, mmax=2          j depois de atualizado -> j=11
+         tempr = wr*data[j]-wi*data[j+1]; -> j=11, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=2.000000          tempr=2.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=2.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=2.000000 data[i]=2.000000, i=9, j=11          data[j]=0.000000 j=11
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=9, j=11          data[j+1]=0.000000 j=11
+         data[i] = data[i] +tempr; -> tempr=2.000000, data[i]=2.000000, i=9          data[i]=4.000000 i=9
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=9          data[i+1]=0.000000 i=9
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=13, m=1, istep=4
+         j=i+mmax; -> j=11, i=13, mmax=2          j depois de atualizado -> j=15
+         tempr = wr*data[j]-wi*data[j+1]; -> j=15, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=2.000000          tempr=2.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=2.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=2.000000 data[i]=2.000000, i=13, j=15          data[j]=0.000000 j=15
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=13, j=15          data[j+1]=0.000000 j=15
+         data[i] = data[i] +tempr; -> tempr=2.000000, data[i]=2.000000, i=13          data[i]=4.000000 i=13
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=13          data[i+1]=0.000000 i=13
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=17, m=1, istep=4
+         j=i+mmax; -> j=15, i=17, mmax=2          j depois de atualizado -> j=19
+         tempr = wr*data[j]-wi*data[j+1]; -> j=19, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=1.000000          tempr=1.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=1.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=1.000000 data[i]=1.000000, i=17, j=19          data[j]=0.000000 j=19
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17, j=19          data[j+1]=0.000000 j=19
+         data[i] = data[i] +tempr; -> tempr=1.000000, data[i]=1.000000, i=17          data[i]=2.000000 i=17
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17          data[i+1]=0.000000 i=17
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=21, m=1, istep=4
+         j=i+mmax; -> j=19, i=21, mmax=2          j depois de atualizado -> j=23
+         tempr = wr*data[j]-wi*data[j+1]; -> j=23, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=1.000000          tempr=1.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=1.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=1.000000 data[i]=1.000000, i=21, j=23          data[j]=0.000000 j=23
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=21, j=23          data[j+1]=0.000000 j=23
+         data[i] = data[i] +tempr; -> tempr=1.000000, data[i]=1.000000, i=21          data[i]=2.000000 i=21
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=21          data[i+1]=0.000000 i=21
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=25, m=1, istep=4
+         j=i+mmax; -> j=23, i=25, mmax=2          j depois de atualizado -> j=27
+         tempr = wr*data[j]-wi*data[j+1]; -> j=27, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=3.000000          tempr=3.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=3.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=3.000000 data[i]=3.000000, i=25, j=27          data[j]=0.000000 j=27
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=25, j=27          data[j+1]=0.000000 j=27
+         data[i] = data[i] +tempr; -> tempr=3.000000, data[i]=3.000000, i=25          data[i]=6.000000 i=25
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=25          data[i+1]=0.000000 i=25
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=29, m=1, istep=4
+         j=i+mmax; -> j=27, i=29, mmax=2          j depois de atualizado -> j=31
+         tempr = wr*data[j]-wi*data[j+1]; -> j=31, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=3.000000          tempr=3.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=3.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=3.000000 data[i]=3.000000, i=29, j=31          data[j]=0.000000 j=31
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=29, j=31          data[j+1]=0.000000 j=31
+         data[i] = data[i] +tempr; -> tempr=3.000000, data[i]=3.000000, i=29          data[i]=6.000000 i=29
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=29          data[i+1]=0.000000 i=29
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=1.000000,wpi=-0.000000,wi=0.000000,wpr=-2.000000,wtemp=1.000000 =>       wr=-1.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.000000,wpi=-0.000000,wtemp=1.000000,wpr=-2.000000 =>       wi=-0.000000
+      << final do for interno 1
+
+   mmax=istep;  mmax=4
+   << final do loop externo do calculo do fourier
+   >> inicio do loop externo do calculo do fourier
+   mmax=2
+   istep=mmax * 2;   istep=8
+   theta=isign * (6.28318530717959/mmax);   theta=1.570796
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=1, mmax=4
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=1, m=1, istep=8
+         j=i+mmax; -> j=31, i=1, mmax=4          j depois de atualizado -> j=5
+         tempr = wr*data[j]-wi*data[j+1]; -> j=5, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=1, j=5          data[j]=0.000000 j=5
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1, j=5          data[j+1]=0.000000 j=5
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=1          data[i]=0.000000 i=1
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1          data[i+1]=0.000000 i=1
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=9, m=1, istep=8
+         j=i+mmax; -> j=5, i=9, mmax=4          j depois de atualizado -> j=13
+         tempr = wr*data[j]-wi*data[j+1]; -> j=13, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=4.000000          tempr=4.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=4.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=4.000000 data[i]=4.000000, i=9, j=13          data[j]=0.000000 j=13
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=9, j=13          data[j+1]=0.000000 j=13
+         data[i] = data[i] +tempr; -> tempr=4.000000, data[i]=4.000000, i=9          data[i]=8.000000 i=9
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=9          data[i+1]=0.000000 i=9
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=17, m=1, istep=8
+         j=i+mmax; -> j=13, i=17, mmax=4          j depois de atualizado -> j=21
+         tempr = wr*data[j]-wi*data[j+1]; -> j=21, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=2.000000          tempr=2.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=2.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=2.000000 data[i]=2.000000, i=17, j=21          data[j]=0.000000 j=21
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17, j=21          data[j+1]=0.000000 j=21
+         data[i] = data[i] +tempr; -> tempr=2.000000, data[i]=2.000000, i=17          data[i]=4.000000 i=17
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17          data[i+1]=0.000000 i=17
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=25, m=1, istep=8
+         j=i+mmax; -> j=21, i=25, mmax=4          j depois de atualizado -> j=29
+         tempr = wr*data[j]-wi*data[j+1]; -> j=29, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=6.000000          tempr=6.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=6.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=6.000000 data[i]=6.000000, i=25, j=29          data[j]=0.000000 j=29
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=25, j=29          data[j+1]=0.000000 j=29
+         data[i] = data[i] +tempr; -> tempr=6.000000, data[i]=6.000000, i=25          data[i]=12.000000 i=25
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=25          data[i+1]=0.000000 i=25
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=1.000000,wpi=1.000000,wi=0.000000,wpr=-1.000000,wtemp=0.707107 =>       wr=-0.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.000000,wpi=1.000000,wtemp=1.000000,wpr=-1.000000 =>       wi=1.000000
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=3, mmax=4
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=3, m=3, istep=8
+         j=i+mmax; -> j=29, i=3, mmax=4          j depois de atualizado -> j=7
+         tempr = wr*data[j]-wi*data[j+1]; -> j=7, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=3, j=7          data[j]=0.000000 j=7
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3, j=7          data[j+1]=0.000000 j=7
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=3          data[i]=0.000000 i=3
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3          data[i+1]=0.000000 i=3
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=11, m=3, istep=8
+         j=i+mmax; -> j=7, i=11, mmax=4          j depois de atualizado -> j=15
+         tempr = wr*data[j]-wi*data[j+1]; -> j=15, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=11, j=15          data[j]=0.000000 j=15
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=11, j=15          data[j+1]=0.000000 j=15
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=11          data[i]=0.000000 i=11
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=11          data[i+1]=0.000000 i=11
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=19, m=3, istep=8
+         j=i+mmax; -> j=15, i=19, mmax=4          j depois de atualizado -> j=23
+         tempr = wr*data[j]-wi*data[j+1]; -> j=23, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=19, j=23          data[j]=0.000000 j=23
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=19, j=23          data[j+1]=0.000000 j=23
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=19          data[i]=0.000000 i=19
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=19          data[i+1]=0.000000 i=19
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=27, m=3, istep=8
+         j=i+mmax; -> j=23, i=27, mmax=4          j depois de atualizado -> j=31
+         tempr = wr*data[j]-wi*data[j+1]; -> j=31, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=27, j=31          data[j]=0.000000 j=31
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=27, j=31          data[j+1]=0.000000 j=31
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=27          data[i]=0.000000 i=27
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=27          data[i+1]=0.000000 i=27
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.000000,wpi=1.000000,wi=1.000000,wpr=-1.000000,wtemp=1.000000 =>       wr=-1.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=1.000000,wpi=1.000000,wtemp=-0.000000,wpr=-1.000000 =>       wi=-0.000000
+      << final do for interno 1
+
+   mmax=istep;  mmax=8
+   << final do loop externo do calculo do fourier
+   >> inicio do loop externo do calculo do fourier
+   mmax=2
+   istep=mmax * 2;   istep=16
+   theta=isign * (6.28318530717959/mmax);   theta=0.785398
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=1, mmax=8
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=1, m=1, istep=16
+         j=i+mmax; -> j=31, i=1, mmax=8          j depois de atualizado -> j=9
+         tempr = wr*data[j]-wi*data[j+1]; -> j=9, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=8.000000          tempr=8.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=8.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=8.000000 data[i]=0.000000, i=1, j=9          data[j]=-8.000000 j=9
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1, j=9          data[j+1]=0.000000 j=9
+         data[i] = data[i] +tempr; -> tempr=8.000000, data[i]=0.000000, i=1          data[i]=8.000000 i=1
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1          data[i+1]=0.000000 i=1
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=17, m=1, istep=16
+         j=i+mmax; -> j=9, i=17, mmax=8          j depois de atualizado -> j=25
+         tempr = wr*data[j]-wi*data[j+1]; -> j=25, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=12.000000          tempr=12.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=12.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=12.000000 data[i]=4.000000, i=17, j=25          data[j]=-8.000000 j=25
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17, j=25          data[j+1]=0.000000 j=25
+         data[i] = data[i] +tempr; -> tempr=12.000000, data[i]=4.000000, i=17          data[i]=16.000000 i=17
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=17          data[i+1]=0.000000 i=17
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=1.000000,wpi=0.707107,wi=0.000000,wpr=-0.292893,wtemp=0.382683 =>       wr=0.707107
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.000000,wpi=0.707107,wtemp=1.000000,wpr=-0.292893 =>       wi=0.707107
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=3, mmax=8
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=3, m=3, istep=16
+         j=i+mmax; -> j=25, i=3, mmax=8          j depois de atualizado -> j=11
+         tempr = wr*data[j]-wi*data[j+1]; -> j=11, data[j+1]=0.000000, wi=0.707107, wr=0.707107, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=3, j=11          data[j]=0.000000 j=11
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3, j=11          data[j+1]=0.000000 j=11
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=3          data[i]=0.000000 i=3
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3          data[i+1]=0.000000 i=3
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=19, m=3, istep=16
+         j=i+mmax; -> j=11, i=19, mmax=8          j depois de atualizado -> j=27
+         tempr = wr*data[j]-wi*data[j+1]; -> j=27, data[j+1]=0.000000, wi=0.707107, wr=0.707107, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=19, j=27          data[j]=0.000000 j=27
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=19, j=27          data[j+1]=0.000000 j=27
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=19          data[i]=0.000000 i=19
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=19          data[i+1]=0.000000 i=19
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=0.707107,wpi=0.707107,wi=0.707107,wpr=-0.292893,wtemp=1.000000 =>       wr=-0.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.707107,wpi=0.707107,wtemp=0.707107,wpr=-0.292893 =>       wi=1.000000
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=5, mmax=8
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=5, m=5, istep=16
+         j=i+mmax; -> j=27, i=5, mmax=8          j depois de atualizado -> j=13
+         tempr = wr*data[j]-wi*data[j+1]; -> j=13, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=5, j=13          data[j]=0.000000 j=13
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5, j=13          data[j+1]=0.000000 j=13
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=5          data[i]=0.000000 i=5
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5          data[i+1]=0.000000 i=5
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=21, m=5, istep=16
+         j=i+mmax; -> j=13, i=21, mmax=8          j depois de atualizado -> j=29
+         tempr = wr*data[j]-wi*data[j+1]; -> j=29, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=21, j=29          data[j]=0.000000 j=29
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=21, j=29          data[j+1]=0.000000 j=29
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=21          data[i]=0.000000 i=21
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=21          data[i+1]=0.000000 i=21
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.000000,wpi=0.707107,wi=1.000000,wpr=-0.292893,wtemp=0.707107 =>       wr=-0.707107
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=1.000000,wpi=0.707107,wtemp=-0.000000,wpr=-0.292893 =>       wi=0.707107
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=7, mmax=8
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=7, m=7, istep=16
+         j=i+mmax; -> j=29, i=7, mmax=8          j depois de atualizado -> j=15
+         tempr = wr*data[j]-wi*data[j+1]; -> j=15, data[j+1]=0.000000, wi=0.707107, wr=-0.707107, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=-0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=7, j=15          data[j]=0.000000 j=15
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=7, j=15          data[j+1]=0.000000 j=15
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=7          data[i]=0.000000 i=7
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=7          data[i+1]=0.000000 i=7
+         >> final do for interno 2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=23, m=7, istep=16
+         j=i+mmax; -> j=15, i=23, mmax=8          j depois de atualizado -> j=31
+         tempr = wr*data[j]-wi*data[j+1]; -> j=31, data[j+1]=0.000000, wi=0.707107, wr=-0.707107, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=-0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=23, j=31          data[j]=0.000000 j=31
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=23, j=31          data[j+1]=0.000000 j=31
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=23          data[i]=0.000000 i=23
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=23          data[i+1]=0.000000 i=23
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.707107,wpi=0.707107,wi=0.707107,wpr=-0.292893,wtemp=-0.000000 =>       wr=-1.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.707107,wpi=0.707107,wtemp=-0.707107,wpr=-0.292893 =>       wi=-0.000000
+      << final do for interno 1
+
+   mmax=istep;  mmax=16
+   << final do loop externo do calculo do fourier
+   >> inicio do loop externo do calculo do fourier
+   mmax=2
+   istep=mmax * 2;   istep=32
+   theta=isign * (6.28318530717959/mmax);   theta=0.392699
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=1, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=1, m=1, istep=32
+         j=i+mmax; -> j=31, i=1, mmax=16          j depois de atualizado -> j=17
+         tempr = wr*data[j]-wi*data[j+1]; -> j=17, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=16.000000          tempr=16.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=16.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=16.000000 data[i]=8.000000, i=1, j=17          data[j]=-8.000000 j=17
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1, j=17          data[j+1]=0.000000 j=17
+         data[i] = data[i] +tempr; -> tempr=16.000000, data[i]=8.000000, i=1          data[i]=24.000000 i=1
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1          data[i+1]=0.000000 i=1
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=1.000000,wpi=0.382683,wi=0.000000,wpr=-0.076120,wtemp=0.195090 =>       wr=0.923880
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.000000,wpi=0.382683,wtemp=1.000000,wpr=-0.076120 =>       wi=0.382683
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=3, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=3, m=3, istep=32
+         j=i+mmax; -> j=17, i=3, mmax=16          j depois de atualizado -> j=19
+         tempr = wr*data[j]-wi*data[j+1]; -> j=19, data[j+1]=0.000000, wi=0.382683, wr=0.923880, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.382683, data[j+1]=0.000000, wr=0.923880          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=3, j=19          data[j]=0.000000 j=19
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3, j=19          data[j+1]=0.000000 j=19
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=3          data[i]=0.000000 i=3
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=3          data[i+1]=0.000000 i=3
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=0.923880,wpi=0.382683,wi=0.382683,wpr=-0.076120,wtemp=1.000000 =>       wr=0.707107
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.382683,wpi=0.382683,wtemp=0.923880,wpr=-0.076120 =>       wi=0.707107
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=5, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=5, m=5, istep=32
+         j=i+mmax; -> j=19, i=5, mmax=16          j depois de atualizado -> j=21
+         tempr = wr*data[j]-wi*data[j+1]; -> j=21, data[j+1]=0.000000, wi=0.707107, wr=0.707107, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=5, j=21          data[j]=0.000000 j=21
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5, j=21          data[j+1]=0.000000 j=21
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=5          data[i]=0.000000 i=5
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=5          data[i+1]=0.000000 i=5
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=0.707107,wpi=0.382683,wi=0.707107,wpr=-0.076120,wtemp=0.923880 =>       wr=0.382683
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.707107,wpi=0.382683,wtemp=0.707107,wpr=-0.076120 =>       wi=0.923880
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=7, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=7, m=7, istep=32
+         j=i+mmax; -> j=21, i=7, mmax=16          j depois de atualizado -> j=23
+         tempr = wr*data[j]-wi*data[j+1]; -> j=23, data[j+1]=0.000000, wi=0.923880, wr=0.382683, data[j]=0.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.923880, data[j+1]=0.000000, wr=0.382683          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=0.000000, i=7, j=23          data[j]=0.000000 j=23
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=7, j=23          data[j+1]=0.000000 j=23
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=0.000000, i=7          data[i]=0.000000 i=7
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=7          data[i+1]=0.000000 i=7
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=0.382683,wpi=0.382683,wi=0.923880,wpr=-0.076120,wtemp=0.707107 =>       wr=-0.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.923880,wpi=0.382683,wtemp=0.382683,wpr=-0.076120 =>       wi=1.000000
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=9, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=9, m=9, istep=32
+         j=i+mmax; -> j=23, i=9, mmax=16          j depois de atualizado -> j=25
+         tempr = wr*data[j]-wi*data[j+1]; -> j=25, data[j+1]=0.000000, wi=1.000000, wr=-0.000000, data[j]=-8.000000          tempr=0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=-8.000000, wi=1.000000, data[j+1]=0.000000, wr=-0.000000          tempi=-8.000000
+         data[j] = data[i]-tempr; -> tempr=0.000000 data[i]=-8.000000, i=9, j=25          data[j]=-8.000000 j=25
+         data[j+1] = data[i+1]-tempi; -> tempi=-8.000000, data[i+1]=0.000000, i=9, j=25          data[j+1]=8.000000 j=25
+         data[i] = data[i] +tempr; -> tempr=0.000000, data[i]=-8.000000, i=9          data[i]=-8.000000 i=9
+         data[i+1] = data[i+1] + tempi; -> tempi=-8.000000, data[i+1]=0.000000, i=9          data[i+1]=-8.000000 i=9
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.000000,wpi=0.382683,wi=1.000000,wpr=-0.076120,wtemp=0.382683 =>       wr=-0.382683
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=1.000000,wpi=0.382683,wtemp=-0.000000,wpr=-0.076120 =>       wi=0.923880
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=11, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=11, m=11, istep=32
+         j=i+mmax; -> j=25, i=11, mmax=16          j depois de atualizado -> j=27
+         tempr = wr*data[j]-wi*data[j+1]; -> j=27, data[j+1]=0.000000, wi=0.923880, wr=-0.382683, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.923880, data[j+1]=0.000000, wr=-0.382683          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=11, j=27          data[j]=0.000000 j=27
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=11, j=27          data[j+1]=0.000000 j=27
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=11          data[i]=0.000000 i=11
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=11          data[i+1]=0.000000 i=11
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.382683,wpi=0.382683,wi=0.923880,wpr=-0.076120,wtemp=-0.000000 =>       wr=-0.707107
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.923880,wpi=0.382683,wtemp=-0.382683,wpr=-0.076120 =>       wi=0.707107
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=13, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=13, m=13, istep=32
+         j=i+mmax; -> j=27, i=13, mmax=16          j depois de atualizado -> j=29
+         tempr = wr*data[j]-wi*data[j+1]; -> j=29, data[j+1]=0.000000, wi=0.707107, wr=-0.707107, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.707107, data[j+1]=0.000000, wr=-0.707107          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=13, j=29          data[j]=0.000000 j=29
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=13, j=29          data[j+1]=0.000000 j=29
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=13          data[i]=0.000000 i=13
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=13          data[i+1]=0.000000 i=13
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.707107,wpi=0.382683,wi=0.707107,wpr=-0.076120,wtemp=-0.382683 =>       wr=-0.923880
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.707107,wpi=0.382683,wtemp=-0.707107,wpr=-0.076120 =>       wi=0.382683
+      << final do for interno 1
+
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=15, mmax=16
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=15, m=15, istep=32
+         j=i+mmax; -> j=29, i=15, mmax=16          j depois de atualizado -> j=31
+         tempr = wr*data[j]-wi*data[j+1]; -> j=31, data[j+1]=0.000000, wi=0.382683, wr=-0.923880, data[j]=0.000000          tempr=-0.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=0.000000, wi=0.382683, data[j+1]=0.000000, wr=-0.923880          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=-0.000000 data[i]=0.000000, i=15, j=31          data[j]=0.000000 j=31
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=15, j=31          data[j+1]=0.000000 j=31
+         data[i] = data[i] +tempr; -> tempr=-0.000000, data[i]=0.000000, i=15          data[i]=0.000000 i=15
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=15          data[i+1]=0.000000 i=15
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=-0.923880,wpi=0.382683,wi=0.382683,wpr=-0.076120,wtemp=-0.707107 =>       wr=-1.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.382683,wpi=0.382683,wtemp=-0.923880,wpr=-0.076120 =>       wi=-0.000000
+      << final do for interno 1
+
+   mmax=istep;  mmax=32
+   << final do loop externo do calculo do fourier
+<< final da rotina de calculo do fourier
+24.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -8.000000 -8.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -8.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 -8.000000 8.000000 0.000000 0.000000 0.000000 0.000000 0.000000 0.000000 
+
