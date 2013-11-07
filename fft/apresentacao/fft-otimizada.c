@@ -2,7 +2,7 @@
 #define SWAP(a,b) tmp=a;a=b;b=tmp
 
 /******************************************************************************/
-void four1(double data[], unsigned long nn, int isign)
+void four1(float data[], unsigned long nn, int isign)
 /*******************************************************************************
 Replaces data[1..2*nn] by its discrete Fourier transform, if isign is input as
 1; or replaces data[1..2*nn] by nn times its inverse discrete Fourier transform,
@@ -11,8 +11,8 @@ a real array of length 2*nn.  nn MUST be an integer power of 2 (this is not
 checked for!).
 *******************************************************************************/
 {
-	unsigned long n,mmax,j,i;
-	double wtemp,wr,wpr,wpi,wi,theta;
+	unsigned long n,mmax,j,i,m;
+	double wtemp,wr,wpr,wpi,wi;
 	double tmp;
 
 	n=nn << 1;

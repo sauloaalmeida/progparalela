@@ -13,7 +13,7 @@ void imprimeInversa(float dadosImp[], int tamVet){
 
 void imprimeModulo(float dadosImp[], int tamVet){
 	int posicao;
-	for(posicao=0;posicao<tamVet;posicao=posicao+2){
+	for(posicao=1;posicao<tamVet;posicao=posicao+2){
 	       printf("%f ",sqrt(pow(dadosImp[posicao],2)+pow(dadosImp[posicao+1],2)));
 	}
     printf("\n");
@@ -23,6 +23,14 @@ void imprimeVetor(float dadosImp[], int tamVet){
 	int posicao;
 	for(posicao=0;posicao<tamVet;posicao++){
 	       printf("%f ",dadosImp[posicao]);
+	}
+    printf("\n\n");
+}
+
+void imprimeVetor1(float dadosImp[], int tamVet){
+	int posicao;
+        for(posicao=1;posicao<=tamVet;posicao++){
+		printf("%f ",dadosImp[posicao]);
 	}
     printf("\n\n");
 }
@@ -46,7 +54,7 @@ void fft(float data[], unsigned long qtdElementos, int isign){
 	tamArray=qtdElementos * 2;
         printf("tamArray=%lu\n",tamArray);
         printf("Array de entrada: ");
-        imprimeVetor(data,tamArray);
+        imprimeVetor1(data,tamArray);
 	j=1;
         printf("j=1\n");
 
@@ -71,6 +79,7 @@ void fft(float data[], unsigned long qtdElementos, int isign){
 		printf("   bitreverso depois do while, com j atualizado: j = j+m; j=%lu \n",j);
                 
 	}
+	imprimeVetor1(data,tamArray);
         printf("<< fim rotina de bit reverso\n\n");
 
 
@@ -130,7 +139,7 @@ void fft(float data[], unsigned long qtdElementos, int isign){
 				printf("         data[i+1] = data[i+1] + tempi; -> tempi=%f, data[i+1]=%f, i=%lu ",tempi,data[i+1],i);
 				data[i+1] = data[i+1] + tempi;
 				printf("         data[i+1]=%f i=%lu\n",data[i+1],i);
-
+			imprimeVetor1(data,tamArray);
                         printf("         >> final do for interno 2\n");
 			}
 			printf("      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=%f,wpi=%f,wi=%f,wpr=%f,wtemp=%f => ",wr,wpi,wi,wpr,wtemp);
@@ -146,7 +155,8 @@ void fft(float data[], unsigned long qtdElementos, int isign){
                 printf("   mmax=istep;");
 		mmax=istep;//caminha o proximo passo no laco mais externo
                 printf("  mmax=%lu\n",mmax);
-        printf("   << final do loop externo do calculo do fourier\n");
+        imprimeVetor1(data,tamArray);
+	printf("   << final do loop externo do calculo do fourier\n");
 
 
 	}
@@ -158,17 +168,22 @@ void fft(float data[], unsigned long qtdElementos, int isign){
 
 int main(void) {
 
-		float data[32] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
-                fft(data-1,16,1);
-                imprimeVetor(data,32);
+		//float data[32] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
+                //fft(data-1,16,1);
+                //imprimeVetor(data,32);
 
-		//float data[16] = {0.,0.,1.,0.,2.,0.,3.,0.,0.,0.,1.,0.,2.,0.,3.,0.} ;
+		//float data[16] = {0.,0.,1.,0.,2.,0.,3.,0.,4.,0.,5.,0.,6.,0.,7.,0.} ;
 		//fft(data-1,8,1);
 		//imprimeVetor(data,16);
 
-		//float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.};
-		//fft(data-1,4,1); 
-		//imprimeVetor(data,8);
+		float data[8] = {0.,0.,1.,0.,2.,0.,3.,0.};
+		fft(data-1,4,1); 
+		imprimeVetor(data,8);
+
+                //float data[4] = {1.,0.,3.,0.};
+                //fft(data-1,2,1);
+                //imprimeVetor(data,4);
+
 
 		return 0;
 

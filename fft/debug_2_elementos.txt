@@ -1,0 +1,45 @@
+tamArray=4
+Array de entrada: 1.000000 0.000000 3.000000 0.000000 
+
+j=1
+>> inicio rotina de bit reverso
+   >> loop bit reverso: j=1, i=1
+
+   m=2
+   bitreverso depois do  while: m=2 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=3 
+   >> loop bit reverso: j=3, i=3
+
+   m=2
+      bitreverso loop while: m=2 j=3 
+         bitreverso loop while apos atualizacao: m=1 j=1 
+   bitreverso depois do  while: m=1 j=1 
+   bitreverso depois do while, com j atualizado: j = j+m; j=2 
+1.000000 0.000000 3.000000 0.000000 
+
+<< fim rotina de bit reverso
+
+>> inicio rotina de calculo do fourier
+   >> inicio do loop externo do calculo do fourier
+   mmax=2
+   istep=mmax * 2;   istep=4
+   theta=isign * (6.28318530717959/mmax);   theta=3.141593
+      >> inicio do for interno 1 - for (m=1;m<mmax;m+=2) m=1, mmax=2
+         >> inicio do for interno 2 - for (i=m;i<=tamArray;i+=istep) i=1, m=1, istep=4
+         j=i+mmax; -> j=2, i=1, mmax=2          j depois de atualizado -> j=3
+         tempr = wr*data[j]-wi*data[j+1]; -> j=3, data[j+1]=0.000000, wi=0.000000, wr=1.000000, data[j]=3.000000          tempr=3.000000
+         tempi = wr*data[j+1]+wi*data[j]; -> data[j]=3.000000, wi=0.000000, data[j+1]=0.000000, wr=1.000000          tempi=0.000000
+         data[j] = data[i]-tempr; -> tempr=3.000000 data[i]=1.000000, i=1, j=3          data[j]=-2.000000 j=3
+         data[j+1] = data[i+1]-tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1, j=3          data[j+1]=0.000000 j=3
+         data[i] = data[i] +tempr; -> tempr=3.000000, data[i]=1.000000, i=1          data[i]=4.000000 i=1
+         data[i+1] = data[i+1] + tempi; -> tempi=0.000000, data[i+1]=0.000000, i=1          data[i+1]=0.000000 i=1
+         >> final do for interno 2
+      wr = (wtemp=wr)*wpr-(wi*wpi)+wr; - wr=1.000000,wpi=-0.000000,wi=0.000000,wpr=-2.000000,wtemp=1.000000 =>       wr=-1.000000
+      wi = (wi*wpr)+(wtemp*wpi)+wi; - wi=0.000000,wpi=-0.000000,wtemp=1.000000,wpr=-2.000000 =>       wi=-0.000000
+      << final do for interno 1
+
+   mmax=istep;  mmax=4
+   << final do loop externo do calculo do fourier
+<< final da rotina de calculo do fourier
+4.000000 0.000000 -2.000000 0.000000 
+
