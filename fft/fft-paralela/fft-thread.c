@@ -6,6 +6,7 @@
 #define TAM_ARRAY 8 
 #define ISIGN 1
 #define QTD_CORES 2
+#define NUM_ITERACOES 5555500
 
 
 void imprimeVetor(float dadosImp[]){
@@ -75,14 +76,27 @@ void fft(float data[]){
 	}
 }
 
+void inicializaArray(float data[]){
+	data[0]=0.;
+	data[1]=0.;
+	data[2]=1.;
+        data[3]=0.;
+	data[4]=2.;
+        data[5]=0.;
+	data[6]=3.;
+        data[7]=0.;
+}
+
 int main(void) {
 
-		float data[TAM_ARRAY] = {0.,0.,1.,0.,2.,0.,3.,0.};
-
-		ordenaBitReverso(data-1);
-
-		fft(data-1);
-
+		
+		float data[TAM_ARRAY];
+		unsigned long count;
+		for(count=0;count<NUM_ITERACOES;count++){
+			inicializaArray(data);
+			ordenaBitReverso(data-1);
+			fft(data-1);
+		}
 		imprimeVetor(data);
 
 		return 0;
