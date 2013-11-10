@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define QTD_ELEMENTOS 4
-#define TAM_ARRAY 8 
+#define QTD_ELEMENTOS 16
+#define TAM_ARRAY 32 
 #define ISIGN 1
 #define QTD_CORES 2
-#define NUM_ITERACOES 5555500
+#define NUM_ITERACOES 1
+//#define NUM_ITERACOES 1000000000
 
 
 void imprimeVetor(float dadosImp[]){
@@ -37,6 +38,7 @@ void ordenaBitReverso(float data[]){
    }
 }
 
+/*
 void calculoButterfly(float data[], unsigned long i, unsigned long j, double wr, double wi){
 	
 	float tempr,tempi;
@@ -48,6 +50,39 @@ void calculoButterfly(float data[], unsigned long i, unsigned long j, double wr,
 	data[i] += tempr;
 	data[i+1] += tempi;
 }
+ */
+
+
+void calculoButterflyLoopCompleto(float data[], unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi){
+	
+	float tempr,tempi;
+    unsigned long j,i;
+    
+    for (i=m;i<=TAM_ARRAY;i+=istep) {
+        j=i+mmax;				
+        printf("          > Inicio do FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
+        tempr=wr*data[j]-wi*data[j+1];
+        tempi=wr*data[j+1]+wi*data[j];
+        data[j]=data[i]-tempr;
+        data[j+1]=data[i+1]-tempi;
+        data[i] += tempr;
+        data[i+1] += tempi;   
+    }
+}
+
+/*
+void calculoButterflyBloco(float data[], unsigned long i, unsigned long tamBloco, double wr, double wi){
+	
+	float tempr,tempi;
+    
+	tempr=wr*data[j]-wi*data[j+1];
+    tempi=wr*data[j+1]+wi*data[j];
+	data[j]=data[i]-tempr;
+	data[j+1]=data[i+1]-tempi;
+	data[i] += tempr;
+	data[i+1] += tempi;
+}
+*/
 
 void fft(float data[]){
 
@@ -56,7 +91,7 @@ void fft(float data[]){
 
 	mmax=2;
 	while (TAM_ARRAY > mmax) {
-
+	printf(">>> Inicio do while -> mmax:%lu\n",mmax);
 		istep=mmax << 1;
 		theta=ISIGN*(6.28318530717959/mmax);
 		wtemp=sin(0.5*theta);
@@ -65,14 +100,13 @@ void fft(float data[]){
 		wr=1.0;
 		wi=0.0;
 		for (m=1;m<mmax;m+=2) {
-			for (i=m;i<=TAM_ARRAY;i+=istep) {
-				j=i+mmax;
-				calculoButterfly(data,i,j,wr,wi);
-			}
+		printf("     >>> Inicio do FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
+			calculoButterflyLoopCompleto(data,m,mmax,istep,wr,wi);
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
 			wi=wi*wpr+wtemp*wpi+wi;
 		}
 		mmax=istep;
+        printf("<<< Final do while -> istep:%lu mmax:%lu\n\n",istep,mmax);
 	}
 }
 
@@ -85,6 +119,30 @@ void inicializaArray(float data[]){
         data[5]=0.;
 	data[6]=3.;
         data[7]=0.;
+        data[8]=0.;
+        data[9]=0.;
+        data[10]=1.;
+        data[11]=0.;
+        data[12]=2.;
+        data[13]=0.;
+        data[14]=3.;
+        data[15]=0.;
+        data[16]=0.;
+        data[17]=0.;
+        data[18]=1.;
+        data[19]=0.;
+        data[20]=2.;
+        data[21]=0.;
+        data[22]=3.;
+        data[23]=0.;
+        data[24]=0.;
+        data[25]=0.;
+        data[26]=1.;
+        data[27]=0.;
+        data[28]=2.;
+        data[29]=0.;
+        data[30]=3.;
+        data[31]=0.;
 }
 
 int main(void) {
