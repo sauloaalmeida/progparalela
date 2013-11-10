@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define QTD_ELEMENTOS 4
+#define QTD_ELEMENTOS 16
 #define TAM_ARRAY QTD_ELEMENTOS * 2 
 #define ISIGN 1
 #define QTD_CORES 2
@@ -36,36 +36,6 @@ void ordenaBitReverso(float data[]){
        }
        j += m;
    }
-}
-
-void calculoButterfly(float data[], unsigned long i, unsigned long j, double wr, double wi){
-	
-	float tempr,tempi;
-
-	tempr=wr*data[j]-wi*data[j+1];
-        tempi=wr*data[j+1]+wi*data[j];
-	data[j]=data[i]-tempr;
-	data[j+1]=data[i+1]-tempi;
-	data[i] += tempr;
-	data[i+1] += tempi;
-}
-
-
-void calculoButterflyLoopCompleto(float data[], unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi){
-	
-	float tempr,tempi;
-    unsigned long j,i;
-    
-    for (i=m;i<=TAM_ARRAY;i+=istep) {
-        j=i+mmax;				
-        printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
-        tempr=wr*data[j]-wi*data[j+1];
-        tempi=wr*data[j+1]+wi*data[j];
-        data[j]=data[i]-tempr;
-        data[j+1]=data[i+1]-tempi;
-        data[i] += tempr;
-        data[i+1] += tempi;   
-    }
 }
 
 void calculoButterflyLoopBloco(float data[], unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi, unsigned long tamBloco){
@@ -110,13 +80,13 @@ void fft(float data[]){
             if (QTD_ELEMENTOS/mmax >= QTD_CORES) {
                 printf("     processa em thread\n");
                 unsigned long tamBloco = QTD_ELEMENTOS/mmax/2;
-                //calculoButterflyLoopBloco(data,TAM_ARRAY/2+m,mmax,istep,wr,wi,tamBloco);
+
+                //loop das threads pela quantidade de cores
                 calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,tamBloco);
                 calculoButterflyLoopBloco(data,TAM_ARRAY/2+m,mmax,istep,wr,wi,tamBloco);
-                //calculoButterflyLoopCompleto(data,m,mmax,istep,wr,wi);
             } else {
                 printf("     processa na main\n");
-                calculoButterflyLoopCompleto(data,m,mmax,istep,wr,wi);
+                calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,1);
             }
             
             //calculoButterflyLoopCompleto(data,m,mmax,istep,wr,wi);
@@ -152,6 +122,8 @@ int main(void) {
 		
 		float data[TAM_ARRAY];
 		unsigned long count;
+    
+        //inicializa aas threads pela quantidade de cores
 		for(count=0;count<NUM_ITERACOES;count++){
 			inicializaArray(data);
 			ordenaBitReverso(data-1);
