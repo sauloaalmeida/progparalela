@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <pthread.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 #define QTD_ELEMENTOS 16
 #define TAM_ARRAY QTD_ELEMENTOS * 2 
 #define ISIGN 1
-#define QTD_CORES 2
+#define QTD_CORES 2 
 #define NUM_ITERACOES 1
 //#define NUM_ITERACOES 1000000000
 
@@ -124,19 +125,30 @@ void inicializaArray(float data[]){
 
 int main(void) {
 
-		
-		float data[TAM_ARRAY];
-		unsigned long count;
-    
-        //inicializa aas threads pela quantidade de cores
-		for(count=0;count<NUM_ITERACOES;count++){
-			inicializaArray(data);
-			ordenaBitReverso(data-1);
-			fft(data-1);
-		}
-		imprimeVetor(data);
+     pthread_t threads[QTD_CORES];
+     float data[TAM_ARRAY];
 
-		return 0;
+     unsigned long count;
+    
+     //inicializa as threads pela quantidade de cores
+
+
+	for(count=0;count<NUM_ITERACOES;count++){
+     	inicializaArray(data);
+		ordenaBitReverso(data-1);
+		fft(data-1);
+	}
+
+	imprimeVetor(data);
+
+     //--espera todas as threads terminarem
+     for (t=0; t<NTHREADS; t++) {
+          if (pthread_join(tid[t], NULL)) {
+               printf("--ERRO: pthread_join() \n"); exit(-1); 
+          } 
+     } 
+
+	return 0;
 
 }
 
