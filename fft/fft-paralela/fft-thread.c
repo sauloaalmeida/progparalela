@@ -9,6 +9,8 @@
 #define NUM_ITERACOES 1
 //#define NUM_ITERACOES 1000000000
 
+int barreira = QTD_CORES;
+
 
 void imprimeVetor(float dadosImp[]){
 	int posicao;
@@ -90,7 +92,7 @@ void fft(float data[]){
                 
             } else {
                 printf("     processa na main\n");
-                calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,1);
+                calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,QTD_ELEMENTOS/mmax);
             }
 
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
