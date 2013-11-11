@@ -79,17 +79,20 @@ void fft(float data[]){
             
             if (QTD_ELEMENTOS/mmax >= QTD_CORES) {
                 printf("     processa em thread\n");
-                unsigned long tamBloco = QTD_ELEMENTOS/mmax/2;
-
+                unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
+                unsigned long blocoAtual;
+                
                 //loop das threads pela quantidade de cores
-                calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,tamBloco);
-                calculoButterflyLoopBloco(data,TAM_ARRAY/2+m,mmax,istep,wr,wi,tamBloco);
+                for (blocoAtual=0; blocoAtual<QTD_CORES; blocoAtual++) {
+                    printf("     qtdBlocos:%lu\n",blocoAtual);
+                    calculoButterflyLoopBloco(data,((TAM_ARRAY/QTD_CORES)*blocoAtual)+m,mmax,istep,wr,wi,tamBloco);
+                }
+                
             } else {
                 printf("     processa na main\n");
                 calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,1);
             }
-            
-            //calculoButterflyLoopCompleto(data,m,mmax,istep,wr,wi);
+
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
 			wi=wi*wpr+wtemp*wpi+wi;
 		}
