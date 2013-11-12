@@ -4,24 +4,27 @@
 #include <pthread.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 #define QTD_ELEMENTOS 16
-#define TAM_ARRAY QTD_ELEMENTOS * 2 
+#define TAM_ARRAY QTD_ELEMENTOS * 2 + 1
+#define QTD_ELEMENTOS_ARRAY TAM_ARRAY - 1
 #define ISIGN 1
 #define QTD_CORES 2 
 #define NUM_ITERACOES 1
 //#define NUM_ITERACOES 1000000000
 
+//dados globais usados pelas threads
 int barreira = QTD_CORES;
+float data[TAM_ARRAY];
 
 
-void imprimeVetor(float dadosImp[]){
+void imprimeVetor(){
 	int posicao;
-	for(posicao=0;posicao<TAM_ARRAY;posicao++){
-	       printf("%2.2f ",dadosImp[posicao]);
+	for(posicao=1;posicao<TAM_ARRAY;posicao++){
+	       printf("%2.2f ",data[posicao]);
 	}
     printf("\n\n");
 }
 
-void ordenaBitReverso(float data[]){
+void ordenaBitReverso(){
    
    unsigned long i,j,m;
    float tempr;
@@ -41,9 +44,9 @@ void ordenaBitReverso(float data[]){
    }
 }
 
-void calculoButterflyLoopBloco(float data[], unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi, unsigned long tamBloco){
+void calculoButterflyLoopBloco(unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi, unsigned long tamBloco){
 	
-	float tempr,tempi;
+    float tempr,tempi;
     unsigned long j,i,bloco;
     bloco=1;
     
@@ -61,12 +64,13 @@ void calculoButterflyLoopBloco(float data[], unsigned long m,unsigned long mmax,
 }
 
 
-void fft(float data[]){
+void fft(){
 
 	unsigned long mmax,j,m,istep,i;
-	double wtemp,wr,wpr,wpi,wi,theta;
-    //inicializa as threads pela quantidade de cores
-    pthread_t threads[QTD_CORES];
+     double wtemp,wr,wpr,wpi,wi,theta;
+    
+     //inicializa as threads pela quantidade de cores
+     pthread_t threads[QTD_CORES];
 
 	mmax=2;
 	while (TAM_ARRAY > mmax) {
@@ -82,7 +86,7 @@ void fft(float data[]){
 		printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
             
             
-            if (QTD_ELEMENTOS/mmax >= QTD_CORES) {
+            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= QTD_CORES) {
                 printf("     processa em thread\n");
                 unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
                 unsigned long blocoAtual;
@@ -90,21 +94,21 @@ void fft(float data[]){
                 //loop das threads pela quantidade de cores
                 for (blocoAtual=0; blocoAtual<QTD_CORES; blocoAtual++) {
                     printf("     qtdBlocos:%lu\n",blocoAtual);
-                    calculoButterflyLoopBloco(data,((TAM_ARRAY/QTD_CORES)*blocoAtual)+m,mmax,istep,wr,wi,tamBloco);
+                    calculoButterflyLoopBloco((((QTD_ELEMENTOS_ARRAY)/QTD_CORES)*blocoAtual)+m,mmax,istep,wr,wi,tamBloco);
                 }
                 
             } else {
                 printf("     processa na main\n");
-                calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,QTD_ELEMENTOS/mmax);
+                calculoButterflyLoopBloco(m,mmax,istep,wr,wi,QTD_ELEMENTOS/mmax);
             }
             
             //--espera todas as threads terminarem
-            int t=0
+            /*int t=0;
             for (t=0; t<QTD_CORES; t++) {
                 if (pthread_join(threads[t], NULL)) {
                     printf("--ERRO: pthread_join() \n"); exit(-1); 
                 } 
-            } 
+            } */
 
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
 			wi=wi*wpr+wtemp*wpi+wi;
@@ -114,11 +118,11 @@ void fft(float data[]){
 	}
 }
 
-void inicializaArray(float data[]){
+void inicializaArray(){
     
     unsigned long i;
     
-    for (i=0; i<TAM_ARRAY; i+=8) {
+    for (i=1; i<TAM_ARRAY; i+=8) {
         data[i]=0.;
         data[i+1]=0.;
         data[i+2]=1.;
@@ -128,24 +132,25 @@ void inicializaArray(float data[]){
         data[i+6]=3.;
         data[i+7]=0.;
     }
-       
-    imprimeVetor(data);
-    
+           
 }
 
 int main(void) {
 
-     float data[TAM_ARRAY];
      unsigned long count;
 
-
 	for(count=0;count<NUM_ITERACOES;count++){
-     	inicializaArray(data);
-		ordenaBitReverso(data-1);
-		fft(data-1);
+     	inicializaArray();
+          imprimeVetor();
+
+          ordenaBitReverso();
+          imprimeVetor();
+		
+          fft();
+     	imprimeVetor();
 	}
 
-	imprimeVetor(data);
+
 
 
 
