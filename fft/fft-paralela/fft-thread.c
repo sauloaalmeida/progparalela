@@ -65,6 +65,8 @@ void fft(float data[]){
 
 	unsigned long mmax,j,m,istep,i;
 	double wtemp,wr,wpr,wpi,wi,theta;
+    //inicializa as threads pela quantidade de cores
+    pthread_t threads[QTD_CORES];
 
 	mmax=2;
 	while (TAM_ARRAY > mmax) {
@@ -95,6 +97,14 @@ void fft(float data[]){
                 printf("     processa na main\n");
                 calculoButterflyLoopBloco(data,m,mmax,istep,wr,wi,QTD_ELEMENTOS/mmax);
             }
+            
+            //--espera todas as threads terminarem
+            int t=0
+            for (t=0; t<QTD_CORES; t++) {
+                if (pthread_join(threads[t], NULL)) {
+                    printf("--ERRO: pthread_join() \n"); exit(-1); 
+                } 
+            } 
 
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
 			wi=wi*wpr+wtemp*wpi+wi;
@@ -125,12 +135,8 @@ void inicializaArray(float data[]){
 
 int main(void) {
 
-     pthread_t threads[QTD_CORES];
      float data[TAM_ARRAY];
-
      unsigned long count;
-    
-     //inicializa as threads pela quantidade de cores
 
 
 	for(count=0;count<NUM_ITERACOES;count++){
@@ -141,12 +147,7 @@ int main(void) {
 
 	imprimeVetor(data);
 
-     //--espera todas as threads terminarem
-     for (t=0; t<NTHREADS; t++) {
-          if (pthread_join(tid[t], NULL)) {
-               printf("--ERRO: pthread_join() \n"); exit(-1); 
-          } 
-     } 
+
 
 	return 0;
 
