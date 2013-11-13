@@ -4,12 +4,20 @@
 #include <sys/time.h>
 #include <pthread.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
+//#define QTD_ELEMENTOS 1024
+//#define QTD_ELEMENTOS 2048
+//#define QTD_ELEMENTOS 4096
+//#define QTD_ELEMENTOS 8192
+//#define QTD_ELEMENTOS 16384
+//#define QTD_ELEMENTOS 32768
 #define QTD_ELEMENTOS 65536
+//#define QTD_ELEMENTOS 131072
 #define QTD_ELEMENTOS_ARRAY QTD_ELEMENTOS * 2
 #define TAM_ARRAY QTD_ELEMENTOS_ARRAY + 1
 #define ISIGN 1
-#define QTD_CORES 1 
-#define NUM_ITERACOES 1
+#define QTD_CORES 8
+#define NUM_ITERACOES 10
+#define PESO_THREADS 14
 
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)
@@ -137,7 +145,7 @@ void fft(){
             
 
             unsigned long blocoAtual;            
-            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= (pow(QTD_CORES,17))) {
+            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= (pow(QTD_CORES,PESO_THREADS))) {
                 //printf("     processa em thread\n");
                 unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
                 
@@ -221,7 +229,9 @@ int main(void) {
      //printf("tempo:%lf",tempo);
      clock = tsc2.int64 - tsc1.int64; //calcula numero de ciclos de CPU gastos
      printf("Tempo FFT : %.1lf(ms) Clocks: %.2e \n", tempo/NUM_ITERACOES, (double)clock/NUM_ITERACOES);
-     printf("Clock/tempo: %.2e\n\n", clock/tempo);
+     printf("Clock/tempo: %.2e\n", clock/tempo);
+     printf("QtdElementos:%d Threads: %d Peso:%d\n",QTD_ELEMENTOS,QTD_CORES,PESO_THREADS);
+     printf("%.1lf\t%.2e\t%.2e\n\n\n",tempo/NUM_ITERACOES,(double)clock/NUM_ITERACOES,clock/tempo);
 
 	//imprimeVetor();
 
