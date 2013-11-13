@@ -4,11 +4,11 @@
 #include <sys/time.h>
 #include <pthread.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define QTD_ELEMENTOS 16
+#define QTD_ELEMENTOS 65536
 #define QTD_ELEMENTOS_ARRAY QTD_ELEMENTOS * 2
 #define TAM_ARRAY QTD_ELEMENTOS_ARRAY + 1
 #define ISIGN 1
-#define QTD_CORES 2 
+#define QTD_CORES 1 
 #define NUM_ITERACOES 1
 
 
@@ -137,7 +137,7 @@ void fft(){
             
 
             unsigned long blocoAtual;            
-            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= QTD_CORES) {
+            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= (pow(QTD_CORES,17))) {
                 //printf("     processa em thread\n");
                 unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
                 
@@ -223,7 +223,7 @@ int main(void) {
      printf("Tempo FFT : %.1lf(ms) Clocks: %.2e \n", tempo/NUM_ITERACOES, (double)clock/NUM_ITERACOES);
      printf("Clock/tempo: %.2e\n\n", clock/tempo);
 
-	imprimeVetor();
+	//imprimeVetor();
 
      pthread_exit (NULL);
 	return 0;
