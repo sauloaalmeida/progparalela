@@ -99,10 +99,14 @@ void *fftThread(void *parms){
             //se for apenas um core, ou se for menor que a quantidade de threads com peso
             //e se for a thread a primeira thread da barreira, deixa ela processar sozinha
             if((qtdThreads==1 || qtdElementos/mmax < (pow(qtdThreads,pesoThreads))) && threadId == 0){
-                calculoButterflyBloco(1);
+                printf("          processar em uma unica thread\n");
+                calculoButterflyBloco(m);
             }else if (tamLoop >= threadId*tamBloco) { //baseado no tamaho do loop verifica se essa thread precisa rodar um bloco
                 //roda o fft por bloco
+                printf("          processar em um bloco da thread: %d\n",threadId);
                 calculoButterflyBloco(((qtdElementos/qtdThreads)*threadId)+m);
+            }else{
+                printf("          nao vou processar nada\n");
             }                                    
             //obtem o lock
             pthread_mutex_lock(&barreiraMutex);            
@@ -115,12 +119,13 @@ void *fftThread(void *parms){
                 pthread_cond_wait(&barreiraCond, &barreiraMutex);
             }else{ //se for a ultima da barreira
                 //atualiza os valores do For1 
+                printf("atualiza os valores do For1\n");
                 wr=(wtemp=wr)*wpr-wi*wpi+wr;
                 wi=wi*wpr+wtemp*wpi+wi;
                 m+=2;
                 //se necessario atualiza os valores do While
-                if (m>mmax) {                    
-                    printf("atualizando dados dos while, pela thread :%d, barreira:%d ",threadId, barreira);
+                if (m>=mmax) {                    
+                    printf("atualizando dados dos while, pela thread :%d, barreira:%d \n",threadId, barreira);
                     //atualiza o mmax
                     mmax=istep;
                     //atualiza os valores do while para a proxima execucao
