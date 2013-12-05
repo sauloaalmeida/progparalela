@@ -10,7 +10,7 @@ int qtdThreads, pesoThreads,barreira;
 unsigned long qtdElementos, tamArray;
 float *data;
 pthread_t *threads;
-unsigned long mmax,j,m,istep,i,tamBloco,tamLoop;
+unsigned long mmax,j,m,istep,i;
 double wtemp,wr,wpr,wpi,wi,theta;
 
 int barreira;
@@ -61,14 +61,14 @@ void inicializaArray(){
     }
     
 }
-//xiita macaaca do taarzan
-//fofoca eh a ammimiga da babaleeia
 
-void calculoButterflyBloco(unsigned long posInicial){
+
+void calculoButterflyBloco(unsigned long posInicial, unsigned long tamBloco){
     
     float tempr,tempi;
     unsigned long j,i,bloco;
     bloco=1;
+    
     
     for (i=posInicial;bloco<=tamBloco;i+=istep) {
         j=i+mmax;                                
@@ -86,43 +86,50 @@ void calculoButterflyBloco(unsigned long posInicial){
 
 void *fftThread(void *parms){
     int threadId = (int)parms;
+    unsigned long tamLoop, tamBloco;
     
-    printf("Iniciando threadId:%d\n",threadId);
-    
-    while (tamArray > mmax) {
-            printf("Acordando a threadId:%d\n",threadId);
+    while (qtdElementos >= mmax) {
             
-            //calcula o tamanho do loop e do bloco para a primeira execucao
+            //calcula o tamanho do loop e do bloco para a execucao
             tamLoop = qtdElementos/mmax; 
             tamBloco = tamLoop/qtdThreads;
         
-            //se for apenas um core, ou se for menor que a quantidade de threads com peso
-            //e se for a thread a primeira thread da barreira, deixa ela processar sozinha
-            if((qtdThreads==1 || qtdElementos/mmax < (pow(qtdThreads,pesoThreads))) && threadId == 0){
-                printf("          processar em uma unica thread\n");
-                calculoButterflyBloco(m);
-            }else if (tamLoop >= threadId*tamBloco) { //baseado no tamaho do loop verifica se essa thread precisa rodar um bloco
-                //roda o fft por bloco
+            
+            //se for para processar em bloco 
+            if(qtdThreads > 1 && tamLoop >= (pow(qtdThreads,pesoThreads)) ){
+                
                 printf("          processar em um bloco da thread: %d\n",threadId);
-                calculoButterflyBloco(((qtdElementos/qtdThreads)*threadId)+m);
-            }else{
-                printf("          nao vou processar nada\n");
-            }                                    
+                calculoButterflyBloco((((tamArray-1)/qtdThreads)*threadId)+m, tamBloco);
+                
+                
+           
+            }else if ( (qtdThreads == 1 || tamLoop < (pow(qtdThreads,pesoThreads)) ) && threadId == 0 ){ 
+                //se for apenas um core, ou se for menor que a quantidade de threads com peso
+                //e se for a ultima a thread da barreira, deixa ela processar sozinha
+                
+                printf("          processar em uma unica thread\n");
+                calculoButterflyBloco(m, tamLoop);
+                
+            }                                  
+            else{
+            
+                printf("          thread: %d nao faz nada\n",threadId);
+                
+            }
             //obtem o lock
             pthread_mutex_lock(&barreiraMutex);            
             //incrementa a barreira
             barreira++;
-            //se nao for a ultima thread da barreira
-            if(barreira>qtdThreads){
-                //se coloca para dormir
-                printf("colocando a threadId:%d para dormir\n",threadId);
-                pthread_cond_wait(&barreiraCond, &barreiraMutex);
-            }else{ //se for a ultima da barreira
+        
+            //se for a ultima thread da barreira
+            if(barreira==qtdThreads){
+                
+                //se for a ultima da barreira
                 //atualiza os valores do For1 
-                printf("atualiza os valores do For1\n");
                 wr=(wtemp=wr)*wpr-wi*wpi+wr;
                 wi=wi*wpr+wtemp*wpi+wi;
                 m+=2;
+                printf("     atualiza os valores do For1 m:%lu mmax:%lu istep:%lu\n",m,mmax,istep);
                 //se necessario atualiza os valores do While
                 if (m>=mmax) {                    
                     printf("atualizando dados dos while, pela thread :%d, barreira:%d \n",threadId, barreira);
@@ -136,18 +143,25 @@ void *fftThread(void *parms){
                     wpi=sin(theta);
                     wr=1.0;
                     wi=0.0;
-                    tamBloco = qtdElementos/mmax/qtdThreads;
                     m=1;
                 }
+                
                 //inicializa a barreira
                 barreira=0;
                 //acorda as outras threads
-                pthread_cond_signal(&barreiraCond);
+                pthread_cond_broadcast(&barreiraCond);                
+
+                
+            }else{ 
+                //se nao for a ultima thread da barreira se coloca para dormir
+                printf("     colocando a threadId:%d para dormir\n",threadId);
+                pthread_cond_wait(&barreiraCond, &barreiraMutex); 
             }
-            //libera o lock do mutex
-            pthread_mutex_unlock(&barreiraMutex);          
+        
+        pthread_mutex_unlock(&barreiraMutex);
+         
     }
-    printf("Finalizando threadId:%d\n",threadId);
+    //printf("Finalizando threadId:%d\n",threadId);
     pthread_exit(NULL);
 }
 
@@ -165,10 +179,6 @@ void fft(){
     m=1;
     barreira=0;
     
-    //calculao tamanho do loop e do bloco para a primeira execucao
-    tamLoop = qtdElementos/mmax;
-    tamBloco = tamLoop/qtdThreads;
-    
     /* Inicilaiza o mutex (lock de exclusao mutua) e a variavel de condicao */
     pthread_mutex_init(&barreiraMutex, NULL);
     pthread_cond_init (&barreiraCond, NULL);
@@ -184,6 +194,8 @@ void fft(){
         pthread_join(threads[threadId], NULL);
     }
     imprimeVetor();
+    pthread_mutex_destroy(&barreiraMutex);
+    pthread_cond_destroy(&barreiraCond);
     pthread_exit (NULL);
 }
 

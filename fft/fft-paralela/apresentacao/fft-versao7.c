@@ -144,27 +144,27 @@ void fft(){
                 //printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
             
 
-            unsigned long blocoAtual;            
-            if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= (pow(QTD_CORES,PESO_THREADS))) {
-                //printf("     processa em thread\n");
-                unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
+                    unsigned long blocoAtual;            
+                    if (QTD_CORES > 1 && QTD_ELEMENTOS/mmax >= (pow(QTD_CORES,PESO_THREADS))) {
+                        //printf("     processa em thread\n");
+                        unsigned long tamBloco = QTD_ELEMENTOS/mmax/QTD_CORES;
                 
-                //loop das threads pela quantidade de cores
-                for (blocoAtual=0; blocoAtual<QTD_CORES; blocoAtual++) {
-                    //printf("     qtdBlocos:%lu\n",blocoAtual);
+                        //loop das threads pela quantidade de cores
+                        for (blocoAtual=0; blocoAtual<QTD_CORES; blocoAtual++) {
+                            //printf("     qtdBlocos:%lu\n",blocoAtual);
                     
-                    //preeenche os dados para enviar para a thread
-                    dadosThreads[blocoAtual].id = blocoAtual;
-                    dadosThreads[blocoAtual].m = (((QTD_ELEMENTOS_ARRAY)/QTD_CORES)*blocoAtual)+m;
-                    dadosThreads[blocoAtual].mmax = mmax;
-                    dadosThreads[blocoAtual].istep = istep;
-                    dadosThreads[blocoAtual].wr = wr;
-                    dadosThreads[blocoAtual].wi = wi; 
-                    dadosThreads[blocoAtual].tamBloco = tamBloco;
+                            //preeenche os dados para enviar para a thread
+                            dadosThreads[blocoAtual].id = blocoAtual;
+                            dadosThreads[blocoAtual].m = (((QTD_ELEMENTOS_ARRAY)/QTD_CORES)*blocoAtual)+m;
+                            dadosThreads[blocoAtual].mmax = mmax;
+                            dadosThreads[blocoAtual].istep = istep;
+                            dadosThreads[blocoAtual].wr = wr;
+                            dadosThreads[blocoAtual].wi = wi; 
+                            dadosThreads[blocoAtual].tamBloco = tamBloco;
                 
-                    //calculoButterflyLoopBloco((((QTD_ELEMENTOS_ARRAY)/QTD_CORES)*blocoAtual)+m,mmax,istep,wr,wi,tamBloco);
-                    pthread_create(&threads[blocoAtual], NULL, fftThread, (void*) &dadosThreads[blocoAtual]);
-                }
+                            //calculoButterflyLoopBloco((((QTD_ELEMENTOS_ARRAY)/QTD_CORES)*blocoAtual)+m,mmax,istep,wr,wi,tamBloco);
+                                pthread_create(&threads[blocoAtual], NULL, fftThread, (void*) &dadosThreads[blocoAtual]);
+                        }
 
                 //--espera todas as threads terminarem
                for (blocoAtual=0; blocoAtual<QTD_CORES; blocoAtual++) {
