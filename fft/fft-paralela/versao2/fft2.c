@@ -4,7 +4,7 @@
 #include <math.h>
 #include <sys/time.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define NUM_ITERACOES 5
+#define NUM_ITERACOES 10
 #define ISIGN 1
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)

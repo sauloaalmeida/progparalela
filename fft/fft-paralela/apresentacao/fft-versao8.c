@@ -5,7 +5,7 @@
 #include <pthread.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
 #define ISIGN 1
-#define NUM_ITERACOES 15
+#define NUM_ITERACOES 10
 
 //dados globais usados pelas threads
 typedef struct strDadosThread
