@@ -2,13 +2,13 @@
 /* Prof.: Silvana Rossetto */
 /* Codigo: Soma de prefixos em CUDA */
 
-/* Para compilar: nvcc -o somavetor somavetor.cu */
+/* Para compilar: nvcc -o prefixo prefixo.cu */
 
 #include <stdio.h>
 #include <sys/time.h>
 
-#define TAMANHO 10
-#define PRINT
+#define TAMANHO 65536
+//#define PRINT
 
 //funcao para execucao sequencial
 void soma_prefixo_seq(int n, float *X) {
