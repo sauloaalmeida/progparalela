@@ -10,11 +10,14 @@
 //dados globais usados pelas threads
 typedef struct strDadosThread
 {
+    
+    unsigned long tamArray;
+    int qtdThreads;
     unsigned long m;
     unsigned long mmax;
     unsigned long istep;
-    double wr;
-    double wi; 
+    float wr;
+    float wi; 
     unsigned long tamBloco;
 }DadosThread;
 
@@ -37,7 +40,7 @@ __asm__ __volatile__ ("rdtsc" :    \
 //dados globais
 float *data, *cudaData;
 DadosThread *dadosThreads, *cudaDadosThreads;
-int qtdThreads, qtdBlocos;
+int qtdThreads, qtdThreadsBlocos, pesoThreads;
 unsigned long qtdElementos, tamArray;
 
 
@@ -86,16 +89,42 @@ void inicializaArray(){
     
 }
 
-void calculoButterflyBloco(DadosThread *dthread){
+void calculoButterflyBlocoLocal(float *data, DadosThread *dthread){
 
-	//TODO: calcular o valor de M baseado no ID da thread
 	unsigned long m = dthread->m;
-
 	unsigned long mmax = dthread->mmax; 
 	unsigned long istep = dthread->istep;
 	unsigned long tamBloco = dthread->tamBloco; 
-	double wr = dthread->wr;
-	double wi = dthread->wi;
+	float wr = dthread->wr;
+	float wi = dthread->wi;
+	float tempr,tempi;
+	unsigned long j,i,bloco;
+	bloco=1;
+
+	for (i=m;bloco<=tamBloco;i+=istep) {
+		j=i+mmax;                                
+		//printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
+		tempr=wr*data[j]-wi*data[j+1];
+		tempi=wr*data[j+1]+wi*data[j];
+		data[j]=data[i]-tempr;
+		data[j+1]=data[i+1]-tempi;
+		data[i] += tempr;
+		data[i+1] += tempi; 
+		bloco++;
+	}
+}
+
+
+__global__ void calculoButterflyBlocoCuda(float *data, DadosThread *dthread){
+
+	int threadID = blockIdx.x * blockDim.x + threadIdx.x;
+
+	unsigned long m = (((dthread->tamArray - 1)/dthread->qtdThreads)*threadID)+dthread->m;
+	unsigned long mmax = dthread->mmax; 
+	unsigned long istep = dthread->istep;
+	unsigned long tamBloco = dthread->tamBloco; 
+	float wr = dthread->wr;
+	float wi = dthread->wi;
 	float tempr,tempi;
 	unsigned long j,i,bloco;
 	bloco=1;
@@ -114,24 +143,39 @@ void calculoButterflyBloco(DadosThread *dthread){
 }
 
 int fftCuda(){
-    
-   //aloca espaco para os vetores na GPU
-   if (cudaMalloc (&cudaData, sizeof(float) * tamArray) != cudaSuccess) 
-        { printf("Erro cudaMalloc do array 'data'\n"); return -1; }
 
-    //Copia os dados da memoria principal para a memoria do dispositivo
-   if (cudaMemcpy(cudaData, data, sizeof(float) * tamArray, cudaMemcpyHostToDevice) != cudaSuccess) 
-        { printf("Erro cudaMemcpy do array 'data'\n"); return -1; }
 
-   //aloca espaco para os dados usados no algoritmo na GPU
-   if (cudaMalloc (&cudaDadosThreads, sizeof(DadosThread)) != cudaSuccess) 
-        { printf("Erro cudaMalloc do struct 'DadosThread'\n"); return -1; }
-    
-     unsigned long mmax,m,istep;
-     double wtemp,wr,wpr,wpi,wi,theta;
+	unsigned long mmax,m,istep;
+	unsigned long tamLoop,tamBloco;
+	float wtemp,wr,wpr,wpi,wi,theta;
+	mmax=2;
+	tamLoop = qtdElementos/mmax;
+	tamBloco = tamLoop/qtdThreads;
+	int processaGPU = 0; 	
+	int retornouDadosGPU = 0; 
+	unsigned long totalPeso = (pow(qtdThreads,pesoThreads));
+	
 
-        mmax=2;
-        while (tamArray > mmax) {
+	if(qtdThreads > 1 && tamLoop >= totalPeso){
+
+		processaGPU = 1;
+
+		//aloca espaco para os vetores na GPU
+		if (cudaMalloc (&cudaData, sizeof(float) * tamArray) != cudaSuccess) 
+		{ printf("Erro cudaMalloc do array 'data'\n"); return -1; }
+
+		//Copia os dados da memoria principal para a memoria do dispositivo
+		if (cudaMemcpy(cudaData, data, sizeof(float) * tamArray, cudaMemcpyHostToDevice) != cudaSuccess) 
+		{ printf("Erro cudaMemcpy do array 'data'\n"); return -1; }
+
+		//aloca espaco para os dados usados no algoritmo na GPU
+		if (cudaMalloc (&cudaDadosThreads, sizeof(DadosThread)) != cudaSuccess) 
+		{ printf("Erro cudaMalloc do struct 'DadosThread'\n"); return -1; }	
+
+	}
+	
+   
+        while (qtdElementos >=  mmax) {
         //printf(">>> Inicio do while -> mmax:%lu\n",mmax);
                 istep=mmax << 1;
                 theta=ISIGN*(6.28318530717959/mmax);
@@ -143,9 +187,22 @@ int fftCuda(){
                 for (m=1;m<mmax;m+=2) {
                 //printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
 
-			unsigned long tamBloco = qtdElementos/mmax/qtdThreads;
+			tamLoop = qtdElementos/mmax;
+			tamBloco = tamLoop/qtdThreads;
+
+			if(tamLoop < totalPeso && qtdThreads > 1){
+				processaGPU = 0;
+				if(!retornouDadosGPU){
+					if (cudaMemcpy(data, cudaData, sizeof(float) * tamArray, cudaMemcpyDeviceToHost) != cudaSuccess){ 
+						printf("Erro cudaMemcpy array 'data'\n"); return -1; 
+					}
+					retornouDadosGPU = 1;
+				}			
+			}
                                      
-			//preeenche os dados para enviar para a thread
+			//preeenche os dados do processamento
+			dadosThreads->tamArray = tamArray;
+    			dadosThreads->qtdThreads = qtdThreads;
 			dadosThreads->m = m;
 			dadosThreads->mmax = mmax;
 			dadosThreads->istep = istep;
@@ -153,28 +210,44 @@ int fftCuda(){
 			dadosThreads->wi = wi; 
 			dadosThreads->tamBloco = tamBloco;
 
-			//Copia os dados do execucao para a memoria do dispositivo
-			if (cudaMemcpy(cudaDadosThreads, dadosThreads, sizeof(DadosThread), cudaMemcpyHostToDevice) != cudaSuccess) 
-				{ printf("Erro cudaMemcpy do array 'data'\n"); return -1; }
+			if(processaGPU){
+				
+				//printf("vai processar na GPU tamLoop:%lu tamBloco:%lu\n",tamLoop,tamBloco);
 
-			//executa o kernel
+				dadosThreads->tamBloco = tamBloco;
+
+				//Copia os dados do execucao para a memoria do dispositivo
+				if (cudaMemcpy(cudaDadosThreads, dadosThreads, sizeof(DadosThread), cudaMemcpyHostToDevice) != cudaSuccess) 
+					{ printf("Erro cudaMemcpy do array 'data'\n"); return -1; }
+
+				//executa o kernel
+				calculoButterflyBlocoCuda<<<qtdThreads/qtdThreadsBlocos,qtdThreadsBlocos>>>(cudaData,cudaDadosThreads);
+			}else{
+				//printf("vai processar localmente tamLoop:%lu\n",tamLoop);
+				//senao calcula localmente
+				dadosThreads->tamBloco = tamLoop;
+				calculoButterflyBlocoLocal(data,dadosThreads);
+			}
 
 			wr=(wtemp=wr)*wpr-wi*wpi+wr;
 			wi=wi*wpr+wtemp*wpi+wi;
                 }
-		//obtem o istep da GPU
-		if (cudaMemcpy(dadosThreads, cudaDadosThreads, sizeof(unsigned long), cudaMemcpyDeviceToHost) != cudaSuccess) 
-		{ printf("Erro cudaMemcpy\n"); return -1; }
+
+		/*if(processaGPU){
+			//obtem o istep da GPU
+			if (cudaMemcpy(dadosThreads, cudaDadosThreads, sizeof(unsigned long), cudaMemcpyDeviceToHost) != cudaSuccess) { 
+				printf("Erro cudaMemcpy do 'cudaDadosThreads'\n"); return -1; 
+			}
+		}*/
 
 		//e atualiza os valores internos para a proxima rodada
-                mmax=dadosThreads->istep;
+                mmax=istep;
         //printf("<<< Final do while -> istep:%lu mmax:%lu\n\n",istep,mmax);
         }
 
-
-	//Copia os dados da memoria do dispositivo para a memoria principal
-	if (cudaMemcpy(data, cudaData, sizeof(float) * tamArray, cudaMemcpyDeviceToHost) != cudaSuccess) 
-        	{ printf("Erro cudaMemcpy do array 'data'\n"); return -1; }
+	//libera a memoria na GPU
+	if (cudaFree(cudaData) != cudaSuccess) { printf("Erro cudaFree 'cudaData'\n"); return -1; }
+	if (cudaFree(cudaDadosThreads) != cudaSuccess) { printf("Erro cudaFree 'cudaDadosThreads'\n"); return -1; }
 	
 	//retorna sucesso
 	return 0;
@@ -186,11 +259,10 @@ int main(int argc, char *argv[]) {
 	struct timeval inicio, fim;
 	tsc_counter tsc1, tsc2;
 	long long unsigned int clock;
-	double tempo;
+	float tempo;
 
-
-	if(argc < 4) {
-	        printf("ERRO: informe s quantidade de elementos do FFT, a quantidade de threads e a quantidade de blocos :: fft-cuda <qtdElementos> <qtdThreads> <qtdBlocos>\n");
+	if(argc < 5) {
+	        printf("ERRO: informe s quantidade de elementos do FFT, a quantidade de threads e a quantidade de threads por blocos e o peso das threads:: fft-cuda <qtdElementos> <qtdThreads> <qtdThreadsPorBloco> <pesoThreads>\n");
 	        return -1;
 	}
     
@@ -198,7 +270,8 @@ int main(int argc, char *argv[]) {
 	qtdElementos = strtoul(argv[1],NULL,10);
 	tamArray = (qtdElementos * 2) + 1;
 	qtdThreads = atoi(argv[2]);
-	qtdBlocos = atoi(argv[3]);
+	qtdThreadsBlocos = atoi(argv[3]);
+	pesoThreads = atoi(argv[4]);
     
 	//printf("sera processada uma fft com Elementos:%lu, Threads:%d, PesoThread:%d\n",qtdElementos,qtdThreads,quantidadeBlocos);
 
@@ -237,12 +310,13 @@ int main(int argc, char *argv[]) {
 	RDTSC(tsc2);
 	tempo = (fim.tv_sec - inicio.tv_sec)*1000 + (fim.tv_usec - inicio.tv_usec)/1000; //calcula tempo em milisegundos
 	clock = tsc2.int64 - tsc1.int64; //calcula numero de ciclos de CPU gastos
-	printf("%lu\t%d\t%d\t%.1lf\t%.2e\t%.2e\n",qtdElementos,qtdThreads,qtdBlocos,tempo/NUM_ITERACOES,(double)clock/NUM_ITERACOES,clock/tempo);
+	printf("%lu\t%d\t%d\t%d\t%.1lf\t%.2e\t%.2e\n",qtdElementos,qtdThreads,qtdThreadsBlocos,pesoThreads,tempo/NUM_ITERACOES,(float)clock/NUM_ITERACOES,clock/tempo);
 
-	imprimeVetor();
+	//imprimeVetor();
 
 	//liberando a memoria
 	free(data);
+	free(dadosThreads);
 
 	return 0;
 }

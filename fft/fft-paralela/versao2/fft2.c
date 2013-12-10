@@ -105,6 +105,7 @@ void calculoButterflyBloco(unsigned long posInicial, unsigned long tamBloco){
 void *fftThread(void *parms){
     int threadId = (int)parms;
     unsigned long tamLoop, tamBloco;
+    unsigned long totalPeso = (pow(qtdThreads,pesoThreads));
     
     while (qtdElementos >= mmax) {
             
@@ -114,14 +115,14 @@ void *fftThread(void *parms){
         
             
             //se for para processar em bloco 
-            if(qtdThreads > 1 && tamLoop >= (pow(qtdThreads,pesoThreads)) ){
+            if(qtdThreads > 1 && tamLoop >= totalPeso ){
                 
                 //printf("          processar em um bloco da thread: %d\n",threadId);
                 calculoButterflyBloco((((tamArray-1)/qtdThreads)*threadId)+m, tamBloco);
                 
                 
            
-            }else if ( (qtdThreads == 1 || tamLoop < (pow(qtdThreads,pesoThreads)) ) && threadId == 0 ){ 
+            }else if ( (qtdThreads == 1 || tamLoop < totalPeso ) && threadId == 0 ){ 
                 //se for apenas um core, ou se for menor que a quantidade de threads com peso
                 //e se for a ultima a thread da barreira, deixa ela processar sozinha
                 

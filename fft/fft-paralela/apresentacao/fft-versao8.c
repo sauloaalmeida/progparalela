@@ -131,6 +131,7 @@ void fft(){
 
         unsigned long mmax,j,m,istep,i;
      double wtemp,wr,wpr,wpi,wi,theta;
+     unsigned long totalPeso = (pow(qtdThreads,pesoThreads));
     
      //inicializa as threads pela quantidade de cores
      pthread_t threads[qtdThreads];
@@ -150,7 +151,7 @@ void fft(){
             
 
                     unsigned long blocoAtual;            
-                    if (qtdThreads > 1 && qtdElementos/mmax >= (pow(qtdThreads,pesoThreads))) {
+                    if (qtdThreads > 1 && qtdElementos/mmax >= totalPeso) {
                         //printf("     processa em thread\n");
                         unsigned long tamBloco = qtdElementos/mmax/qtdThreads;
                 
