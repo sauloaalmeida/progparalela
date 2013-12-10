@@ -3,7 +3,7 @@
 #include <math.h>
 #include <sys/time.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define NUM_ITERACOES 1
+#define NUM_ITERACOES 10
 #define ISIGN 1
 
 
