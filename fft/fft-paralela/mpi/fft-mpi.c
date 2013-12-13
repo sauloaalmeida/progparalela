@@ -4,21 +4,20 @@
 #include <sys/time.h>
 #include <mpi.h>
 #define SWAP(a,b) tempr=a;a=b;b=tempr
-#define NUM_ITERACOES 10
+#define NUM_ITERACOES 1
 #define ISIGN 1
 
 
 //dados globais usados pelas threads
-typedef struct strDadosThread
+typedef struct strDadosExecucaoProcesso
 {
     unsigned long m;
     unsigned long mmax;
     unsigned long istep;
-    unsigned long tamArray;    
+    unsigned long tamBloco;            
     double wr;
     double wi; 
-    float dados;
-}DadosThread;
+}DadosExecucaoProcesso;
 
 
 //estrutura de dados para uso da instrucao rdtsc (contador de timestamp em clocks nivel HW)
@@ -37,9 +36,10 @@ __asm__ __volatile__ ("rdtsc" :    \
 "=d" ((cpu_c).int32.hi) )
 
 
-int qtdProcessos;
+int qtdProcessos,pesoThreads;
+unsigned long qtdElementos, tamArray;
 
-void imprimeVetor(){
+void imprimeVetor(float data[]){
     int posicao;
     for(posicao=1;posicao<tamArray;posicao++){
         printf("%2.2f ",data[posicao]);
@@ -47,7 +47,7 @@ void imprimeVetor(){
     printf("\n\n");
 }
 
-void ordenaBitReverso(){
+void ordenaBitReverso(float data[]){
     
     unsigned long i,j,m;
     float tempr;
@@ -67,7 +67,7 @@ void ordenaBitReverso(){
     }
 }
 
-void inicializaArray(){
+void inicializaArray(float data[]){
     
     unsigned long i;
     
@@ -85,26 +85,75 @@ void inicializaArray(){
 }
 
 
+void calculoButterflyBloco(float dataBloco[], unsigned long m,unsigned long mmax, unsigned long istep, double wr, double wi, unsigned long tamBloco){
+        
+    float tempr,tempi;
+    unsigned long j,i,bloco;
+    bloco=1;
+    
+    for (i=m;bloco<=tamBloco;i+=istep) {
+        j=i+mmax;                                
+        //printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
+        tempr=wr*dataBloco[j]-wi*dataBloco[j+1];
+        tempi=wr*dataBloco[j+1]+wi*dataBloco[j];
+        dataBloco[j]=dataBloco[i]-tempr;
+        dataBloco[j+1]=dataBloco[i+1]-tempi;
+        dataBloco[i] += tempr;
+        dataBloco[i+1] += tempi; 
+        bloco++;
+    }
+}
 
 
+void fftMpi(int argc, char *argv[]){
 
-void fftMpi(){
-
-     int rank;
-     unsigned long mmax,j,m,istep,i;
-     double wtemp,wr,wpr,wpi,wi,theta;
-     unsigned long totalPeso = (pow(qtdProcessos,pesoThreads));
+    float *dataLocal;
+    int rank;
+    unsigned long mmax,j,m,istep,i;
+    double wtemp,wr,wpr,wpi,wi,theta;
+    unsigned long totalPeso = (pow(qtdProcessos,pesoThreads));
+     
+    DadosExecucaoProcesso     dadosExecucaoProcesso;
+	MPI_Datatype dadosExecucaoProcessoType, oldtypes[2];
+	int          blockcounts[2];
+	MPI_Aint    offsets[2], extent;
 
     MPI_Status status;
     
     MPI_Init(&argc, &argv);
-    
     MPI_Comm_size(MPI_COMM_WORLD, &qtdProcessos);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);    
+    
+    //inicializacao dos campos unsigned longs
+    offsets[0] = 0;
+    oldtypes[0] = MPI_UNSIGNED_LONG;
+    blockcounts[0] = 4;
+    
+    //inicializacao dos campos double
+    //precisa primero descobrir o offset pelo tamanho do MPI_UNSIGNED_LOG
+	MPI_Type_extent(MPI_UNSIGNED_LONG, &extent);
+	offsets[1] = 4 * extent;
+	oldtypes[1] = MPI_DOUBLE;
+	blockcounts[1] = 2;    
+	
+	//Agora define o tipo estruturado e commita
+	MPI_Type_struct(2, blockcounts, offsets, oldtypes, &dadosExecucaoProcessoType);
+	MPI_Type_commit(&dadosExecucaoProcessoType);	
 
-    int root = 0;
+    int root = qtdProcessos-1;
 
     if(rank==root){
+    
+      	float data[tamArray];
+      	 
+        //alocando memoria para o vetor de dados
+//        data = malloc(sizeof(float) * tamArray);    
+
+        //inicializa o array        
+        inicializaArray(data);
+        //e ordena o bit reverso
+        ordenaBitReverso(data);
+    
         mmax=2;
         while (tamArray > mmax) {
         //printf(">>> Inicio do while -> mmax:%lu\n",mmax);
@@ -122,34 +171,48 @@ void fftMpi(){
                     if (qtdProcessos > 1 && qtdElementos/mmax >= totalPeso) {
                         //printf("     processa em thread\n");
                         unsigned long tamBloco = qtdElementos/mmax/qtdProcessos;
-                
-                        //loop das threads pela quantidade de cores
-                        for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
-                            //printf("     qtdBlocos:%lu\n",blocoAtual);
-                    
-                            //preeenche os dados para enviar para a thread
+                        
+                            //preenche os dados para enviar para os processos
                             //dadosThreads[blocoAtual].m = (((tamArray - 1)/qtdProcessos)*blocoAtual)+m;
-                            dadosThreads.m = m;                            
-                            dadosThreads.mmax = mmax;
-                            dadosThreads.istep = istep;
-                            dadosThreads.wr = wr;
-                            dadosThreads.wi = wi; 
-                            dadosThreads.tamBloco = tamBloco;
-                                			
-                            //manda para o MPI fazer o calculo
-                            
-                            
-                            //recebe do MPI o resultado
-                            //atualiza o vetor principal
+                            dadosExecucaoProcesso.m = m;
+                            dadosExecucaoProcesso.mmax = mmax;
+                            dadosExecucaoProcesso.istep = istep;
+                            dadosExecucaoProcesso.tamBloco = tamBloco;
+                            dadosExecucaoProcesso.wr = wr;
+                            dadosExecucaoProcesso.wi = wi; 
+
+                            //manda para todos os processos as informacoes de execucao
+                            MPI_Bcast(&dadosExecucaoProcesso, 1, dadosExecucaoProcessoType, root, MPI_COMM_WORLD);
+                
+                        //Manda para os processo os blocos de trabalho (menos o root)
+                        for (blocoAtual=0; blocoAtual<qtdProcessos-1; blocoAtual++) {
+                            //printf("     qtdBlocos:%lu\n",blocoAtual);
+                                					    
+                            //calcula que parte do bloco que vai ser enviada
+                            unsigned long inicioBloco = (((tamArray - 1)/qtdProcessos)*blocoAtual)+m;
+                                					    
+						    //manda para cada processo o seu bloco de processamento
+						    MPI_Send(&data[inicioBloco], tamBloco, MPI_FLOAT, blocoAtual, 123, MPI_COMM_WORLD);
                             
                         }
-
-                		//--barreira que espera todas as threads terminarem
-
-                
+                                               
+                        //recebe dos processos os resultado do trabalho (menos o root)
+                        for (blocoAtual=0; blocoAtual<qtdProcessos-1; blocoAtual++) {
+                            //printf("     qtdBlocos:%lu\n",blocoAtual);
+                            
+                            //calcula que parte do bloco que vai ser recebida
+                            unsigned long inicioBloco = (((tamArray - 1)/qtdProcessos)*blocoAtual)+m;
+                                					    
+						    //recebe de cada processo o resultado com seu bloco de processamento
+						    //o que atualiza o vetor principal
+   						    MPI_Recv(&data[inicioBloco], tamBloco, MPI_FLOAT, root, 123, MPI_COMM_WORLD,&status);
+                        }                
+                                
+                  
 				    } else {
+				    	//se nao for necessario, calcula localmente
 				        //printf("     processa na main\n");
-				        calculoButterflyBloco(m,mmax,istep,wr,wi,qtdElementos/mmax);
+				        calculoButterflyBloco(data,m,mmax,istep,wr,wi,((tamArray - 1)/qtdProcessos)+m);
 				    }
 
                   wr=(wtemp=wr)*wpr-wi*wpi+wr;
@@ -158,8 +221,33 @@ void fftMpi(){
                 mmax=istep;
         //printf("<<< Final do while -> istep:%lu mmax:%lu\n\n",istep,mmax);
         }
+        
+        imprimeVetor(data);
+
+        //liberando a memoria
+  //      free(data);
+        
+	}else{
+	
+		//Todos os outros ja recebem no broadcast as informacoes do processo
+	    //alocam o bloco float
+	    dataLocal = malloc(sizeof(float) * dadosExecucaoProcesso.tamBloco);
+	    
+	    //recebe os dados
+	    MPI_Recv(&dataLocal, dadosExecucaoProcesso.tamBloco, MPI_FLOAT, root, 123, MPI_COMM_WORLD,&status);
+	
+	    //processam o fft 
+        calculoButterflyBloco(dataLocal,1,dadosExecucaoProcesso.mmax,dadosExecucaoProcesso.istep,dadosExecucaoProcesso.wr,dadosExecucaoProcesso.wi,dadosExecucaoProcesso.tamBloco);
+	
+	    //devolvem para o raiz o seu bloco de processamento
+	    MPI_Send(&dataLocal, dadosExecucaoProcesso.tamBloco, MPI_FLOAT, rank, 123, MPI_COMM_WORLD);
+	    
+	    //desaloca o array temporario
+	    free(dataLocal);
+	
 	}
 
+    MPI_Type_free(&dadosExecucaoProcessoType);
     MPI_Finalize();
         
 }
@@ -177,6 +265,8 @@ void fftMpi(){
 
 int main(int argc, char *argv[]) {
 
+
+
      struct timeval inicio, fim;
      tsc_counter tsc1, tsc2;
      long long unsigned int clock;
@@ -192,26 +282,17 @@ int main(int argc, char *argv[]) {
     qtdElementos = strtoul(argv[1],NULL,10);
     tamArray = qtdElementos*2 + 1;
     pesoThreads = atoi(argv[2]);
-
-    //alocando memoria para o vetor de dados
-    data = malloc(sizeof(float) * tamArray);
-    
-    //alocando a memoria para os dados das threads
-    dadosThreads = malloc(sizeof(DadosThread));
-
     
      //wurmup
-     inicializaArray();
-     ordenaBitReverso();
-     fftMpi();
+     //inicializaArray();
+     //ordenaBitReverso();
+     //fftMpi();
 
      //mede o tempo de execução da funcao f0 (media de NITER repeticoes) 
      gettimeofday(&inicio, NULL);
      RDTSC(tsc1);
         for(count=0;count<NUM_ITERACOES;count++){
-             inicializaArray();
-             ordenaBitReverso();
-             fftMpi();
+             fftMpi(argc,argv);
         }
 
      RDTSC(tsc2);
@@ -225,10 +306,6 @@ int main(int argc, char *argv[]) {
       printf("%lu\t%d\t%d\t%.1lf\t%.2e\t%.2e\n",qtdElementos,qtdProcessos,pesoThreads,tempo/NUM_ITERACOES,(double)clock/NUM_ITERACOES,clock/tempo);
         //imprimeVetor();
     
-    //liberando a memoria
-    free(dadosThreads);
-    free(data);
-
     return 0;
 
 }
