@@ -36,7 +36,7 @@ __asm__ __volatile__ ("rdtsc" :    \
 "=d" ((cpu_c).int32.hi) )
 
 
-int qtdProcessos,pesoThreads;
+int qtdProcessos,totalProcessos,pesoThreads;
 unsigned long qtdElementos, tamArray;
 
 void imprimeVetor(float data[]){
@@ -93,7 +93,7 @@ void calculoButterflyBloco(float dataBloco[], unsigned long m,unsigned long mmax
     
     for (i=m;bloco<=tamBloco;i+=istep) {
         j=i+mmax;                                
-        //printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
+        printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
         tempr=wr*dataBloco[j]-wi*dataBloco[j+1];
         tempi=wr*dataBloco[j+1]+wi*dataBloco[j];
         dataBloco[j]=dataBloco[i]-tempr;
@@ -121,7 +121,7 @@ void fftMpi(int argc, char *argv[]){
     MPI_Status status;
     
     MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &qtdProcessos);
+    MPI_Comm_size(MPI_COMM_WORLD, &totalProcessos);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);    
     
     //inicializacao dos campos unsigned longs
@@ -140,7 +140,9 @@ void fftMpi(int argc, char *argv[]){
 	MPI_Type_struct(2, blockcounts, offsets, oldtypes, &dadosExecucaoProcessoType);
 	MPI_Type_commit(&dadosExecucaoProcessoType);	
 
-    int root = qtdProcessos-1;
+
+    int root = totalProcessos-1;
+    qtdProcessos = root;
 
     if(rank==root){
     
@@ -165,7 +167,7 @@ void fftMpi(int argc, char *argv[]){
                 wr=1.0;
                 wi=0.0;
                 for (m=1;m<mmax;m+=2) {
-                //printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
+                printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
 
                     unsigned long blocoAtual;            
                     if (qtdProcessos > 1 && qtdElementos/mmax >= totalPeso) {
@@ -185,7 +187,7 @@ void fftMpi(int argc, char *argv[]){
                             MPI_Bcast(&dadosExecucaoProcesso, 1, dadosExecucaoProcessoType, root, MPI_COMM_WORLD);
                 
                         //Manda para os processo os blocos de trabalho (menos o root)
-                        for (blocoAtual=0; blocoAtual<qtdProcessos-1; blocoAtual++) {
+                        for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
                             //printf("     qtdBlocos:%lu\n",blocoAtual);
                                 					    
                             //calcula que parte do bloco que vai ser enviada
@@ -197,7 +199,7 @@ void fftMpi(int argc, char *argv[]){
                         }
                                                
                         //recebe dos processos os resultado do trabalho (menos o root)
-                        for (blocoAtual=0; blocoAtual<qtdProcessos-1; blocoAtual++) {
+                        for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
                             //printf("     qtdBlocos:%lu\n",blocoAtual);
                             
                             //calcula que parte do bloco que vai ser recebida
@@ -264,8 +266,6 @@ void fftMpi(int argc, char *argv[]){
 
 
 int main(int argc, char *argv[]) {
-
-
 
      struct timeval inicio, fim;
      tsc_counter tsc1, tsc2;
