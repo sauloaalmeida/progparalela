@@ -153,7 +153,7 @@ int fftCuda(){
 	tamBloco = tamLoop/qtdThreads;
 	int processaGPU = 0; 	
 	int retornouDadosGPU = 0; 
-	unsigned long totalPeso = (pow(qtdThreads,pesoThreads));
+	unsigned long totalPeso = (pow((double)qtdThreads,pesoThreads));
 	
 
 	if(qtdThreads > 1 && tamLoop >= totalPeso){
