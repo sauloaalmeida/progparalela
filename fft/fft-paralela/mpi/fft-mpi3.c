@@ -176,36 +176,116 @@ void fftMPI(){
         //printf("Dados de execucao inicializados:  quantidade de elementos: %lu, tamArray: %lu, pesoThreads %d, totalPeso %lu, no processo: %d\n",qtdElementos,tamArray,pesoThreads,totalPeso,rank);
         
         inicializaArrayPrincipal();
-        
-        //preenche os dados para enviar para os processos
-        dadosExecucaoProcesso = malloc(sizeof(DadosExecucaoProcesso));
-        dadosExecucaoProcesso[0].tamBloco = 4;
-        dadosExecucaoProcesso[0].wr = 5.3;
-        dadosExecucaoProcesso[0].wi = 7.2;
-        
-        printf(" send tamBloco %lu, wr %f, wi %f \n",dadosExecucaoProcesso[0].tamBloco,dadosExecucaoProcesso[0].wr,dadosExecucaoProcesso[0].wi);
 
-        //manda para todos os processos as informacoes de execucao
-        MPI_Send(dadosExecucaoProcesso, 1, dadosExecucaoProcessoType,0,123, MPI_COMM_WORLD);
+
+        mmax=2;
+        while (tamArray > mmax) {
+            //printf(">>> Inicio do while -> mmax:%lu\n",mmax);
+            istep=mmax << 1;
+            theta=ISIGN*(6.28318530717959/mmax);
+            wtemp=sin(0.5*theta);
+            wpr = -2.0*wtemp*wtemp;
+            wpi=sin(theta);
+            wr=1.0;
+            wi=0.0;
+            for (m=1;m<mmax;m+=2) {
+                printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax); 
+                
+                unsigned long blocoAtual;            
+                if (qtdProcessos > 1 && qtdElementos/mmax >= totalPeso) {
+                    printf("     processa em thread\n");
+                    unsigned long tamBloco = qtdElementos/mmax/qtdProcessos;
+                    
+                    printf("     tamBloco:%lu\n",tamBloco);
+
+                       //preenche os dados para enviar para os processos
+                       dadosExecucaoProcesso = malloc(sizeof(DadosExecucaoProcesso));
+                       dadosExecucaoProcesso[0].tamBloco = tamBloco;
+                       dadosExecucaoProcesso[0].wr = wr;
+                       dadosExecucaoProcesso[0].wi = wi;
+                       
+                       printf(" send tamBloco %lu, wr %f, wi %f \n",dadosExecucaoProcesso[0].tamBloco,dadosExecucaoProcesso[0].wr,dadosExecucaoProcesso[0].wi);
+                       //manda para todos os processos as informacoes de execucao
+                       for(blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++){                            MPI_Send(dadosExecucaoProcesso, 1, dadosExecucaoProcessoType,blocoAtual,123, MPI_COMM_WORLD);                                                   }
+                       //libera os dados de execucao
+                       free(dadosExecucaoProcesso);
+                    
+                    
+                    //Manda para os processo os blocos de trabalho (menos o root)
+                    for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
+                        printf("     blocoAtual:%lu\n",blocoAtual);
+                        
+                        //aloca a memoria do bloco que sera enviado
+                        dataTransporte = malloc(sizeof(DataTransporte) * tamBloco * 4);
+                        printf("     alocou memoria para os dados que serao transportados\n");
+                 
+                        //prepara o bloco que sera enviado
+                        unsigned long count,bloco = 0;  
+                        for (i=m;bloco<=tamBloco;i+=istep) {
+                            j=i+mmax;                                
+                            
+                            //printf("dataPackage.index:%lu, datapackage.value:%f\n",i,data[i]);
+
+                            dataTransporte[count].index=i;
+                            dataTransporte[count].value=data[i];
+
+                            dataTransporte[count+1].index = j;                            dataTransporte[count+1].value = data[j];
+                            
+                            dataTransporte[count+2].index = i+1;                            dataTransporte[count+2].value = data[i+1];
+                            
+                            dataTransporte[count+3].index = j+1;
+                            dataTransporte[count+3].value = data[j+1];
+                            
+                            bloco++;
+                            count+=4;                                 
+                        }
+                        
+                        imprimeVetorPackage(dataTransporte,tamBloco*4);
+     				    
+                        //manda para cada processo o seu bloco de processamento
+                        MPI_Send(dataTransporte, tamBloco*4, dataTransporteType, blocoAtual, 123, MPI_COMM_WORLD);
+                        
+                        //desaloca a memoria do bloco que sera enviado
+                        free(dataTransporte);
+                        
+                    }
+                    
+                    //recebe dos processos os resultado do trabalho (menos o root)
+                    for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
+                        //printf("     qtdBlocos:%lu\n",blocoAtual);
+                        
+                        //aloca a memoria do bloco que sera recebido
+                        dataTransporte = malloc(sizeof(DataTransporte) * tamBloco * 4);
+                        
+                        //recebe de cada processo o resultado com seu bloco de processamento o que atualiza o vetor principal
+                        MPI_Recv(&dataTransporte, tamBloco*4, dataTransporteType, root, 123, MPI_COMM_WORLD,&status);
+                        
+                        //atualiza o vetor principal
+                        unsigned long count2;
+                        for(count2=0;count2<tamBloco*4;count2++){
+                            data[dataTransporte[count2].index]=dataTransporte[count2].value;
+                        }
+                        
+                        //desaloca o pacote de dados
+                        free(dataTransporte);
+                        
+                    }                
+                    
+                } else {
+                    //se nao for necessario, calcula localmente
+                    //printf("     processa na main\n");
+                    calculoButterflyBloco(data,m,mmax,istep,wr,wi,((tamArray - 1)/qtdProcessos)+m);
+                }
+                
+                wr=(wtemp=wr)*wpr-wi*wpi+wr;
+                wi=wi*wpr+wtemp*wpi+wi;
+            }
+            mmax=istep;
+            //printf("<<< Final do while -> istep:%lu mmax:%lu\n\n",istep,mmax);
+        }
+
         
-        //envia dados para os slaves
-        dataTransporte = malloc(sizeof(DataTransporte) * 4);
-        
-        dataTransporte[0].index=1;
-        dataTransporte[0].value=11;
-        dataTransporte[1].index=2;
-        dataTransporte[1].value=12;
-        dataTransporte[2].index=3;
-        dataTransporte[2].value=13;
-        dataTransporte[3].index=4;
-        dataTransporte[3].value=14;
-        
-        MPI_Send(dataTransporte, 4, dataTransporteType, 0, 123, MPI_COMM_WORLD);
-        
-        //imprimeVetor(data,tamArray);
-        
-        free(dadosExecucaoProcesso);
-        free(dataTransporte);
+        imprimeVetor(data,tamArray);        
         liberaArrayPrincipal();
         
     }else{
