@@ -207,7 +207,7 @@ void liberaArrayPrincipal(){
 
 void fftMPI(){
     
-    unsigned long mmax,j,m,istep,i;
+    unsigned long mmax,j,m,istep,i=1;
     double wtemp,wr,wpr,wpi,wi,theta;
 
     if(rank==root){
@@ -252,18 +252,16 @@ void fftMPI(){
                        //libera os dados de execucao
                        free(dadosExecucaoProcesso);
                     
-                   /* 
-                    //Manda para os processo os blocos de trabalho (menos o root)
-                    for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
-                        printf("     processo %d - blocoAtual:%lu\n",rank,blocoAtual);
-                        
+                                           
                         //aloca a memoria do bloco que sera enviado
                         dataTransporte = malloc(sizeof(DataTransporte) * tamBloco * 4);
                         printf("     processo %d - alocou memoria para os dados que serao transportados\n",rank);
                  
                         //prepara o bloco que sera enviado
-                        unsigned long count,bloco = 0;  
-                        for (i=m;bloco<=tamBloco;i+=istep) {
+                        unsigned long count=0;
+                        unsigned long bloco=0;
+                        blocoAtual=0;
+                        for (i=m;i<=qtdElementos;i+=istep) {
                             j=i+mmax;                                
                             
                             //printf("dataPackage.index:%lu, datapackage.value:%f\n",i,data[i]);
@@ -281,25 +279,30 @@ void fftMPI(){
                             dataTransporte[count+3].value = data[j+1];
                             
                             bloco++;
-                            count+=4;                                 
+                            count+=4;
+                            
+                            if(bloco==tamBloco){
+                                //envia os dados
+                                printf("#########################  Imprimindo pacote antes de enviar \n");
+                                imprimeVetorPackage(dataTransporte,tamBloco*4);
+                                
+                                count=0;
+                                bloco=0;
+                                //manda para cada processo o seu bloco de processamento
+                                MPI_Send(dataTransporte, tamBloco*4, dataTransporteType, blocoAtual, 123, MPI_COMM_WORLD);
+                                blocoAtual++;
+                                
+                            }
                         }
-                        
-                        printf("#########################  Imprimindo pacote antes de enviar \n");
-                        imprimeVetorPackage(dataTransporte,tamBloco*4);
-     				    
-                        //manda para cada processo o seu bloco de processamento
-                        //MPI_Send(dataTransporte, tamBloco*4, dataTransporteType, blocoAtual, 123, MPI_COMM_WORLD);
-                        
-                        //desaloca a memoria do bloco que sera enviado
+                    
+                        printf("ultimo loop de envio, liberando memoria\n");
                         free(dataTransporte);
-                        
-                    }
                      
                     
                     //MPI_Barrier(MPI_COMM_WORLD);
                     
-                    /*
                     
+                    /*
                     //recebe dos processos os resultado do trabalho (menos o root)
                     for (blocoAtual=0; blocoAtual<qtdProcessos; blocoAtual++) {
                         //printf("     qtdBlocos:%lu\n",blocoAtual);
@@ -319,13 +322,15 @@ void fftMPI(){
                         //desaloca o pacote de dados
                         free(dataTransporte);
                         
-                    }    
+                    } 
                      */
+                
 
                     
                 } else {
                     //se chegou aqui, na primeira vez, avisa para os slaves pararem
-                    if(devePararSlaves){                         
+                    if(devePararSlaves==0){
+                         
                        //preenche os dados para enviar para os processos
                        dadosExecucaoProcesso = malloc(sizeof(DadosExecucaoProcesso));
                        dadosExecucaoProcesso[0].tamBloco = 0;
@@ -343,13 +348,15 @@ void fftMPI(){
                                    dadosExecucaoProcesso[0].wi);
                        }
                        //libera os dados de execucao
-                       free(dadosExecucaoProcesso);                         
-                       devePararSlaves=0;                                             }
+                       free(dadosExecucaoProcesso);
+                         
+                       devePararSlaves=0;                         
+                    }
                      
                     //e calcula localmente
                     printf("     processa na main\n");
 
-                    //calculoButterflyBloco(data,m,mmax,istep,wr,wi,((tamArray - 1)/qtdProcessos)+m);
+                    calculoButterflyBloco(data,m,mmax,istep,wr,wi,qtdElementos/mmax);
                     //imprimeVetor(data,tamArray);
                 }
                 
@@ -369,10 +376,11 @@ void fftMPI(){
         
         //printf("Eu sou um processo slave, o de numero: %d\n",rank);
         //printf("Dados de execucao inicializados:  quantidade de elementos: %lu, tamArray: %lu, pesoThreads %d, totalPeso %lu, no processo: %d\n",qtdElementos,tamArray,pesoThreads,totalPeso,rank);
-          while(1){               
+          while(1){
+               
              //recebe os dados de execucao do root
              dadosExecucaoProcesso = malloc(sizeof(DadosExecucaoProcesso));
-             MPI_Recv(dadosExecucaoProcesso, 1, dadosExecucaoProcessoType, root, 123, MPI_COMM_WORLD,&status);
+             MPI_Recv(dadosExecucaoProcesso, 1, dadosExecucaoProcessoType, root, 123, MPI_COMM_WORLD, &status);
 
              //imprime os dados do receive
              printf("processo %d - receive - continua: %d, tamBloco: %lu, wr %f, wi %f \n",
@@ -383,18 +391,23 @@ void fftMPI(){
                          dadosExecucaoProcesso[0].wi);
 
              //caso tenham terminados os blocos
-             if(!dadosExecucaoProcesso[0].continua){                  break;             }
+             if(dadosExecucaoProcesso[0].continua==0){
+                break;
+             }
 
              //senao recebe e processa os dados do root
-             //dataTransporte = malloc(sizeof(DataTransporte) * 4);
-             //MPI_Recv(dataTransporte, dadosExecucaoProcesso[0].tamBloco * 4, dataTransporteType, root, 123, MPI_COMM_WORLD,&status);
+              unsigned long packageSize=dadosExecucaoProcesso[0].tamBloco * 4;
+             dataTransporte = malloc(sizeof(DataTransporte) * packageSize);
+             MPI_Recv(dataTransporte, packageSize, dataTransporteType, root, 123, MPI_COMM_WORLD, &status);
 
              //imprime os dados
-             //printf("#########################  Imprimindo pacote recebido \n");
-             //imprimeVetorPackage(dataTransporte,dadosExecucaoProcesso[0].tamBloco *  4);
+             printf("#########################  Imprimindo pacote recebido \n");
+             imprimeVetorPackage(dataTransporte,packageSize);
              
              free(dadosExecucaoProcesso);
-             //free(dataTransporte);                         }                
+             free(dataTransporte);
+               
+          }                
         
     }
     

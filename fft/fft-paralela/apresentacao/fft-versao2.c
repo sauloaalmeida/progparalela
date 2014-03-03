@@ -68,7 +68,7 @@ void fft(float data[]){
                 printf("     >>> FOR 1 -> m:%lu mmax:%lu\n",m,mmax);
                         for (i=m;i<=TAM_ARRAY;i+=istep) {
                                 j=i+mmax;
-                                printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu j:%lu\n",wi,wr,istep, mmax, i, j);
+                                printf("          >>> FOR 2 -> wi:%f wr:%f istep:%lu mmax:%lu i:%lu i+1:%lu j:%lu j+1:%lu \n",wi,wr,istep, mmax, i, i+1, j, j+1);
                                 calculoButterfly(data,i,j,wr,wi);
                         }
                         wr=(wtemp=wr)*wpr-wi*wpi+wr;
